@@ -2,6 +2,8 @@
 <html lang="hu">
 <head>
     <meta charset="UFT-8">
+    <meta name = 'Author' content="Vincze Csilla">
+    <link href="https://leafletjs.com/docs/images/favicon.ico" rel="icon" type="image/x-icon" />
     <title> Meteorológiai adattár </title>
     <link rel="stylesheet" href="leaflet/leaflet.css" />
 	<script src="leaflet/leaflet.js"></script>
@@ -11,11 +13,14 @@
 <body>
 
     <div class="menu">
-        <a href="https://odp.met.hu" title="ODP">Meteorológiai Adattár</a>
-        
+        <div class="image">
+            <img src="https://odp.met.hu/icons/favicon.ico">
+        </div>
+        <a href="https://odp.met.hu" title="ODP">Meteorológiai Adattár</a> 
     </div>
 
     <div class="content_p"> 
+       <div class="szoveg"> City: </div> 
         <div id="map">
             <script>
                     var map = L.map('map').setView([47.475,19.062], 7);
