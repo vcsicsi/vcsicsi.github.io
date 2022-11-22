@@ -1,4 +1,13 @@
 #map { 
     height: 180px; 
+    width: 160px;
+}
+
+.footer {
+    position:absolute;
+    width:100%;
+    bottom:0;
+    top: 10px;
+    text-align:center;
 }
 
