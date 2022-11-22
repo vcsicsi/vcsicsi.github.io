@@ -1,13 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+    background-color:rgb(58, 58, 58);
+    color: rgb(124, 124, 124);
+}
+
+/* unvisited link */
+a:link {
+    color: rgb(129, 182, 212);
+  }
+/* visited link */
+a:visited {
+    color: rgb(172, 170, 170);
+  }
+
+/* mouse over link */
+a:hover {
+    color: rgb(105, 245, 255);
+  }  
+
+
+.menu{
+ height: 50px;
+ font-size: 30px;
+ padding: 10px;
+}
+
+.content_p {
+    position: relative;
+    height: 800px;
+    background-color: rgb(94, 153, 177);
+    margin: 0;
+    color: rgb(0, 0, 0);
+}
+
 #map { 
-    height: 180px; 
-    width: 160px;
+    position: relative;
+    height: 300px; 
+    width: 100%;
+    background-color: brown;
+    margin: 0;
+    padding: 0;
 }
 
 .footer {
-    position:relative;
-    width:100%;
-    bottom:0;
-    top: 10px;
+    position: relative;
+    height: 100px;
     text-align:center;
+    display: block;
+    justify-content: center;
+    align-items: center;
 }
 
