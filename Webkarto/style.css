@@ -44,13 +44,20 @@
 
  .menu .menu-flex .search {
   flex-direction: row;
+  display: flex;
   margin-left: auto;
+  gap: 5px;
  }
 
-.menu .image{
+.image{
   padding-top: 0px;
   float:left;
 } 
+
+.search .icon {
+  float:left;
+  width: 30px;
+}
 
 .content_p {
     position: relative;
