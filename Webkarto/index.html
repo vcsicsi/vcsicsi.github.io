@@ -68,8 +68,12 @@
                         for (var i in data) {
                             var row = data[i];
                             var marker = L.marker([row.Latitude, row.Longitude], {
-                                 opacity: 1,                     
-                            }).bindPopup(row.StationName);
+                                 opacity: 1, 
+                                 icon: L.icon ({
+                                 iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAACEklEQVRoge2Zyy4EQRSGPzNmLJDY21sY74AFKzIIYmc5IQzWXsDtMfAgJMLKNTHu4RGwYMWiTqXGpaenu6ani9SXVDpV3af6/7vrdFdXgyeQPDAN7AIV4FVKBdiRffnU1NXJBHAHfISUW2A8JY01yQAbGKGnQBnoBdqlFIAl4KzquDWJdQZt4g0oUVtcBpiTY7UZJ5jAmOiXtjZgEThE5cf+L3EDGDNjycusTR6TEyVp6wZO+JoTewHx87L/BsglqjSEaUxOZFB3Qpu4BIpAZ434LHAux08mqjSEXRFRlnoZY6Krzj6WJWa74eoicCUieqV+JPVihD4KElNprLRoPIsIPXxevtXroVNinm2EtNoEo8Z4NTo/XmL0ler75J6vQysOfZi3fWxsr8KRbIcs+hiW7aGlFitmUFfzjHgXJQtcSB9TDdQVmRzwJELmYsQvSOwD9vlqzRhmijIQIW4QeJfY0QR0xWILY2aen0+zarKoO6FNrCeuLgIZYBMztzpHvbELQIeUPmAFkxPaREsKekMposZ72IfVPQ4NpyByqAlgkIlJUp7pRkULD6o3FKc+M23wRlzDG3ENb8Q1vBHX8EZcwxtxDW/ENbwR1/BGXOPfGGnGMmVTlkKTPMk10APMfmv7c+iV+kcpH9L252gBjjHrWXF/PTjBKMbISMparDlA/dlKdLG6GU+UVdkmtlz6r/gEUiyS5y5bS/8AAAAASUVORK5CYII=",                    
+                                 iconSize: [40,60]
+                                })
+                                }).bindTooltip([row.StationName]);
                             marker.addTo(map);
                         }
                     });   
