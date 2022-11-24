@@ -79,9 +79,9 @@
                                     iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
                                     iconSize:     [28, 45],
                                     iconAnchor: [22, 44],
-                                    popupAnchor: [3, 36],
+                                    popupAnchor: [-10, 22],
                                 })                            
-                                }).bindTooltip("StationNumber= " + row.StationNumber + "</br>" + "StationName= " + row.StationName);
+                                }).bindTooltip(row.StationNumber + ", " + row.StationName);
                             marker.addTo(map);
                         }
                         console.log(data);
