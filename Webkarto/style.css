@@ -3,6 +3,12 @@
     padding: 0;
 }
 
+@media screen and (max-width: 800px) {
+  .left, .main, .right {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
+}
+
 /* unvisited link */
 .menu a:link, 
 .footer a:link {
@@ -27,9 +33,7 @@
 
 .menu{
  height: 80px;
- font-size: 30vw;
- padding: 10px;
- padding-top: 20px;
+ font-size: 4vw;
  background-color:rgb(58, 58, 58);
  color: rgb(124, 124, 124);
  align-items:center;
@@ -38,9 +42,7 @@
  .menu-flex {
   display: flex;
   align-items:center;
-  gap: 5px;
-  margin: 10px;
-  font-size: 15vw;
+  font-size: 2vw;
  }
 
  .menu .menu-flex .search {
@@ -48,17 +50,17 @@
   align-items: flex-end;
   display: flex;
   margin-left: auto;
-  gap: 5px;
  }
 
 .image{
   padding-top: 0px;
   float:left;
+
 } 
 
 .search .icon {
   float:left;
-  width: 15vw;
+ 
 }
 
 .content_p {
