@@ -64,7 +64,7 @@
                     //https://github.com/HandsOnDataViz - még nem működik
                     //Read markers data from data.csv
                     //"./station_meta_auto.csv"
-                    $get('./data.csv', function(csvString) {
+                    $.get('./data.csv', function(csvString) {
                         var data = Papa.parse(csvString, {header: true, dynamicTyping:true}).data
                         for (var i in data) {
                             var row = data[i];
