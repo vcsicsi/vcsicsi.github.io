@@ -61,9 +61,6 @@
                                 +layer.feature.properties.display_name;
                     }	                  
                     
-                    //create cluster group
-                    var markerClusters = L.markerClusterGroup();
-
                     //https://github.com/HandsOnDataViz - még nem működik
                     //Read markers data from data.csv
                     $.get('./data.csv', function(csvString) {
@@ -78,12 +75,12 @@
                                  opacity: 1, 
                                  icon: L.icon ({
                                     iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-                                     }),                            
+                                     })                            
                                 }).bindTooltip(row.StationNumber + " " + row.StationName);
-                            markerClusters.addLayer(marker);
+                            marker.addTo(map);
                         }
                     });   
-                    map.addLayer(markerClusters);
+                 
                     
                     map.attributionControl.setPrefix(
                         'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
