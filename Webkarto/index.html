@@ -58,8 +58,19 @@
                                 +layer.feature.properties.display_name;
                     }	                  
                     
+                    //Read markers data from data.csv
+                    //"./station_meta_auto.csv"
+                    $get("./station_meta_auto.csv", function(csvString) {
+                        var data = Papa.parse(csvString, {header: true, dynamicTyping:true}).data
+                        for (var i in data) {
+                            var row = data[i];
+                            var marker = L.marker([row.Latitude, row.Longitude], {
+                                 opacity: 1,                     
+                            }).bindPopup(row.StationName);
+                            marker.addTo(map);
+                        }
+                    });
                     
-                    //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"
                     
                                           
                 </script>  
