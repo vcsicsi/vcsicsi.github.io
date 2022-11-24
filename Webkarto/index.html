@@ -65,7 +65,7 @@
                     //Read markers data from data.csv
                     //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
                     $.get('./data.csv', function(csv) {
-                        var data = Papa.parse(csv, {header: true, dynamicTyping: true, download: false, encoding: "UTF-8"}).data;
+                        var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8"}).data;
                         for (var i in data) {
                             var row = data[i];
                             var marker = L.marker([row.Latitude, row.Longitude], {
