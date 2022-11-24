@@ -27,7 +27,7 @@
 
 .menu{
  height: 80px;
- font-size: 30px;
+ font-size: 30vw;
  padding: 10px;
  padding-top: 20px;
  background-color:rgb(58, 58, 58);
@@ -40,10 +40,12 @@
   align-items:center;
   gap: 5px;
   margin: 10px;
+  font-size: 15vw;
  }
 
  .menu .menu-flex .search {
   flex-direction: row;
+  align-items: flex-end;
   display: flex;
   margin-left: auto;
   gap: 5px;
@@ -56,7 +58,7 @@
 
 .search .icon {
   float:left;
-  width: 30px;
+  width: 15vw;
 }
 
 .content_p {
