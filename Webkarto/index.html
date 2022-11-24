@@ -69,10 +69,13 @@
                             var row = data[i];
                             var marker = L.marker([row.Latitude, row.Longitude], {
                                  opacity: 1,                     
-                            }).bindTooltip(row.StationNumber);
+                            }).bindPopup(row.StationName);
                             marker.addTo(map);
                         }
-                    });                        
+                    });   
+                    
+                    map.attributionControl.setPrefix();
+                    
                 </script>  
         </div>      
     </div>   
