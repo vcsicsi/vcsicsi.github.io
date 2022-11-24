@@ -63,8 +63,9 @@
                     
                     //https://github.com/HandsOnDataViz - még nem működik
                     //Read markers data from data.csv
-                    $.get('./data.csv', function(csvString) {
-                        var data = Papa.parse(csvString, {header: true, dynamicTyping: true, download: true}).data;
+                    //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
+                    $.get('./data.csv', function(csv) {
+                        var data = Papa.parse(csv, {header: true, dynamicTyping: true, download: false}).data;
                         for (var i in data) {
                             var row = data[i];
                             var marker = L.marker([row.Latitude, row.Longitude], {
