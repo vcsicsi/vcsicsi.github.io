@@ -77,8 +77,9 @@
                                  opacity: 1, 
                                  icon: L.icon ({
                                     iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-                                    iconAnchor: [22, 94],
-                                    popupAnchor: [-3, -76],
+                                    iconSize:     [18, 65],
+                                    iconAnchor: [12, 64],
+                                    popupAnchor: [-3, -46],
                                 })                            
                                 }).bindTooltip("StationNumber= " + row.StationNumber + "</br>" + "StationName= " + row.StationName);
                             marker.addTo(map);
