@@ -64,7 +64,7 @@
                     //https://github.com/HandsOnDataViz - még nem működik
                     //Read markers data from data.csv
                     $.get('./data.csv', function(csvString) {
-                        var data = Papa.parse(csvString, {header: true, dynamicTyping:true, download: true}).data;
+                        var data = Papa.parse(csvString, {header: true, dynamicTyping: true, download: true}).data;
                         for (var i in data) {
                             var row = data[i];
                             var marker = L.marker([row.Latitude, row.Longitude], {
