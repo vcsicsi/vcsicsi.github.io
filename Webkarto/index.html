@@ -3,7 +3,7 @@
 <head>
     <meta charset="UFT-8">
     <meta name = 'Author' content="Vincze Csilla">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
     <title> Meteorológiai Adattár </title>
     <!--link href="https://leafletjs.com/docs/images/favicon.ico" rel="icon" type="image/x-icon" /-->
     <!--a target="_blank" href="https://icons8.com/icon/GzYDj7oXQlke/bee">Bee</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>"-->
@@ -67,8 +67,7 @@
                         var data = Papa.parse(csvString, {
                             header: true, 
                             dynamicTyping:true,
-                            download: true,
-                        }).data
+                            download: true}).data
                         for (var i in data) {
                             var row = data[i];
                             var marker = L.marker([row.Latitude, row.Longitude], {
@@ -79,9 +78,7 @@
                                 }).bindTooltip(row.StationNumber + " " + row.StationName);
                             marker.addTo(map);
                         }
-                    });   
-                 
-                    
+                    });          
                     map.attributionControl.setPrefix(
                         'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
                         );   
