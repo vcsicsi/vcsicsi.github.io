@@ -123,8 +123,8 @@ img {
 
 .content_p #map { 
     position: relative;
-    height: 40vw; 
     width: 100%;
+    height: calc(80vh - 80px);
 }
 
 .footer {
