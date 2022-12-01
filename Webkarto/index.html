@@ -59,6 +59,7 @@
                             });
                     }
                     
+<<<<<<< HEAD
                 function tooltipszöveg (layer){
                     var prop = layer.feature.properties;
                     return (prop.icon?('<img src="'+prop.icon+'">'):'')
@@ -91,6 +92,36 @@
                         map.attributionControl.setPrefix(
                             'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
                             );   
+=======
+                    //https://github.com/HandsOnDataViz - még nem működik
+                    //Read markers data from data.csv
+                    //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
+                    $.get('./data.csv', function(csv) {
+                        var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
+                                    skipEmptyLines: true, dynamicTyping: true, 
+                                    transformHeader:function(h) {
+                                    return h.trim();
+                                    }
+                            }).data;
+                        for (var i in data) {
+                            var row = data[i];
+                            var marker = L.marker([row.Latitude, row.Longitude], {
+                                 opacity: 1, 
+                                 icon: L.icon ({
+                                    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
+                                    iconSize:     [28, 45],
+                                    iconAnchor: [22, 44],
+                                    popupAnchor: [20, 44],
+                                })                            
+                                }).bindTooltip(row.StationNumber + ", "+row.RegioName + row.StationName);
+                            marker.addTo(map);
+                        }
+                        console.log(data);
+                    });          
+                    map.attributionControl.setPrefix(
+                        'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
+                        );   
+>>>>>>> 5099d645a7ba1b6be171dfdfb3cd486af7fe2478
                 </script>  
         </div>      
     </div>   
