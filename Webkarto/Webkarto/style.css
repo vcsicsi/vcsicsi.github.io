@@ -37,10 +37,12 @@
     
 }
 .menu a {
-  font-size: 4vw;
+  font-size: 3vw;
 }
 
-
+.fa-cloud{
+  color: rgb(128, 197, 236);
+}
 /************************************************** button********************************************/
 * {
   box-sizing: border-box;
@@ -105,17 +107,9 @@
   flex-direction: row;
   display: flex;
   margin-left: auto;
-  font-size: 2vw;
   align-items: center;
   gap: 0.5vw;
  }
-
-.text{
-  margin: .5em 0 .5em 0;
-  min-height: 3vw;
-  font-size: 2vw;
-  width: 10vw;
-}
 
 /**********************************terkep********************************************************************/
 .content_p {
