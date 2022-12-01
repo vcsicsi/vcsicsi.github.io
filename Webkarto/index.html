@@ -37,6 +37,7 @@
         <form class="btn_keres">
             <input type="text" placeholder="Search.." name="search" id="hely" />
             <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
+            <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button>
         </form>
      </div> 
     </div>
@@ -50,19 +51,17 @@
                 }).addTo(map);
 
                 // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
-                function kereses() {
-                    
+                function kereses() {                   
                     // megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
                     var h=document.getElementById("hely").value;
                     var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
-
                         fetch(url).then(r=>r.json()).then(data=>{
                             var eredmeny=L.geoJson(data).addTo(map).bindTooltip(tooltipszöveg);
                             }); 
-                    
+                    //clear text        
                     document.getElementById("hely").value="";                                   
                     };
-
+                //Press Enter hely kereses    
                 var input = document.getElementById("hely");
                     input.addEventListener("keypress", function(event) {
                         if (event.key === "Enter") {
@@ -72,12 +71,14 @@
                         }
                  });
 
+                //tooltip a geokódoláshoz        
                 function tooltipszöveg (layer){
                     var prop = layer.feature.properties;
                     return (prop.icon?('<img src="'+prop.icon+'">'):'')
                             +layer.feature.properties.display_name;
-                 };	                  
-                
+                 }; 
+
+                //met.hu állomások rétegcsoport
                 //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
                 $.get('./Webkarto/data.csv', function(csv) {
                     var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
@@ -100,9 +101,10 @@
                         marker.addTo(map);
                     }
                     console.log(data);
-                        });          
-                        map.attributionControl.setPrefix(
-                            'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
+                        });
+                
+                map.attributionControl.setPrefix(
+                'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
                             );   
                 </script>  
         </div>      
