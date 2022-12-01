@@ -1,94 +1,96 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UFT-8">
+    <meta charset="UTF-8">
     <meta name = 'Author' content="Vincze Csilla">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
     <title> Meteorológiai Adattár </title>
-    <!--link href="https://leafletjs.com/docs/images/favicon.ico" rel="icon" type="image/x-icon" /-->
-    <!--a target="_blank" href="https://icons8.com/icon/GzYDj7oXQlke/bee">Bee</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>"-->
-    <link rel="icon" href="bee.png" type="image/x-icon" />
-    <link rel="stylesheet" href="leaflet/leaflet.css" />
-	<script src="leaflet/leaflet.js"></script>
-    <!-- Load jQuery and PapaParse to read data from a CSV file -->
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+     crossorigin=""/>
+
+     <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+    crossorigin=""></script>
+    
+    <!-- Load jQuery and PapaParse to read data from a CSV file --> 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    
+    <!--Webstyle-->
+    <link rel="stylesheet" href="Webkarto/style.css">
+    <!-- Load icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>  
 
 <body>
     <div class="menu">
      <div class="menu-flex"> 
-        <div class="image">
-            <img src="data:image/png;base64,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">  
-        </div>
         <div class = "title">
-            <a href="https://odp.met.hu" title="ODP">Meteorológiai Adattár</a> 
-        </div>
-        <div class="search"> 
-            <div class="icon">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAC+0lEQVRoge2Zz08TQRTHP/UH3tSLhQjEIN7k5kEhil7VgyYWww8T/wQTf0Rignqj/gOevZiQhoO0xsSb4K8Yr+qdkxG8KBEstNbDvHFWWaSzM7Ot0k+yeZu2833vdffNzL6FFi2CkHEc3wGcAU4CfcABYLd89wWYB94Dz4AnwCdHf94ZBErAGlCr81gDisCJBsS7jl7UP6uDqwCzwFXgKJAFdsqRBY4B14A5+a0e9xg4mHLsvxgDliSQb8AksM9ifBbIA8ui8RUY8RzjptzG/JtTQKeDVhdQiOhNOEdXJ3fF4Q85d50gNFeAKiklMyaOqkAugP4QJpnhAPqAKmxdEzdDOQHGMTXTE8KBnp2mQohHyGBqpuRbfFCEl4Fu3+IxdKJmwhpw3KdwSUQnfYpuQl58zvgS7ECtwhXs1glXsuJzVc6t2Bbz2VlgB/ACWHQKzY4F4DVqV3DadnBcIoNiiw5BJUXfVqdsB8Yl0if2ZeJwkvNK7GEfYp9RRZdmfWjaxfeCD7GyiLX5ELNkl/j+bjsw7tZqBlZtB8QlsiR2j1ssidgr1vrWiktkXmxv4nCSc0jsR9uBcYm8EzuQOJzk9Iv9YDswLpFZsecTh5Mc7fOpD7F2zBbFeqvggN6irGFqxZkiahrM+xKsg3vis+BTtF9EV0h/G3/Et7jeyhfw95weRwaYFl+PQjjoQT1+1lCPo6G4JT4Wgf2hnIxgmg9DAfQvYpoP5wLo/8YEJplx/NxmGdSV0ElUUR2b4OhkdM10OWh1Y2oielSAUbcw62MYUzPLqKnZZp3JoqbYFUz7J9oP1smk0kbtwcxm2vEccB21pWlHbf/b5HwAuAE8/yPoKVRhjzYyGVAtmxnsXiuUgYeoDn2UjZIJ1nmMIwtcBh4Ab1FTaBm1uM0Db4D7EtTfnjhHaIJkfDHE+itcAS41MqikbJRMKlOzb/6rZHJsgWRSWTR9k0N1VLZOMs3a14oyjaqNSuSz7ZiOyz/HBcyVudPgWJzJkeLr7BYtgJ/57P8kvPwRcAAAAABJRU5ErkJggg==">
-            </div>
-            <p>Keresendő hely: </p> 
-            <input type = "text" id="hely" class = "text"/>
-		    <input type= "button" value= "Keresés" onclick="kereses()" class = "bt" />
-        </div>  
+            <i class="fa fa-cloud"></i>
+            <a href="https://odp.met.hu" title="ODP">Meteorológiai Adattár</a>           
+       </div>
+        <!-- The form -->
+        <form class="btn_keres">
+            <input type="text" placeholder="Search.." name="search" id="hely">
+            <button type="button" onclick="kereses()"><i class="fa fa-search"></i></button>
+        </form>
      </div> 
     </div>
-          
-    <div class="content_p"> 
+
+    <div class="content_p">                     
         <div id="map">
             <script>
-                    var map = L.map('map').setView([47.475,19.062], 7);
+                var map = L.map('map').setView([47.475,19.062], 7);
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
 
-                    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-
-                    // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
-                    function kereses() {
-                        // megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
-                        var h=document.getElementById("hely").value;
-                        var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
-                            fetch(url).then(r=>r.json()).then(data=>{
-                                var eredmeny=L.geoJson(data).addTo(map).bindTooltip(tooltipszöveg);
-                                });
-                        }
-                      
-                    function tooltipszöveg (layer){
-                        var prop = layer.feature.properties;
-                        return (prop.icon?('<img src="'+prop.icon+'">'):'')
-                                +layer.feature.properties.display_name;
-                    }	                  
+                // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
+                function kereses() {
+                    // megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
+                    var h=document.getElementById("hely").value;
+                    var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
+                        fetch(url).then(r=>r.json()).then(data=>{
+                            var eredmeny=L.geoJson(data).addTo(map).bindTooltip(tooltipszöveg);
+                            });
+                    }
                     
-                    //https://github.com/HandsOnDataViz - még nem működik
-                    //Read markers data from data.csv
-                    //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
-                    $.get('./data.csv', function(csv) {
-                        var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
-                                    skipEmptyLines: true, dynamicTyping: true, 
-                                    transformHeader:function(h) {
-                                    return h.trim();
-                                    }
-                            }).data;
-                        for (var i in data) {
-                            var row = data[i];
-                            var marker = L.marker([row.Latitude, row.Longitude], {
-                                 opacity: 1, 
-                                 icon: L.icon ({
-                                    iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-                                    iconSize:     [28, 45],
-                                    iconAnchor: [22, 44],
-                                    popupAnchor: [20, 44],
-                                })                            
-                                }).bindTooltip(row.StationNumber + ", " + row.StationName);
-                            marker.addTo(map);
-                        }
-                        console.log(data);
-                    });          
-                    map.attributionControl.setPrefix(
-                        'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
-                        );   
+                function tooltipszöveg (layer){
+                    var prop = layer.feature.properties;
+                    return (prop.icon?('<img src="'+prop.icon+'">'):'')
+                            +layer.feature.properties.display_name;
+                }	                  
+                
+                //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
+                $.get('./Webkarto/data.csv', function(csv) {
+                    var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
+                                skipEmptyLines: true, dynamicTyping: true, 
+                                transformHeader:function(h) {
+                                return h.trim();
+                                }
+                        }).data;
+                    for (var i in data) {
+                        var row = data[i];
+                        var marker = L.marker([row.Latitude, row.Longitude], {
+                                opacity: 1, 
+                                icon: L.icon ({
+                                iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
+                                iconSize:     [28, 45],
+                                iconAnchor: [22, 44],
+                                popupAnchor: [20, 44],
+                            })                            
+                            }).bindTooltip(row.StationNumber + ", " + row.StationName);
+                        marker.addTo(map);
+                    }
+                    console.log(data);
+                        });          
+                        map.attributionControl.setPrefix(
+                            'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
+                            );   
                 </script>  
         </div>      
     </div>   
@@ -110,12 +112,7 @@
             <div class="block1">
                 <p>© Data: </p>
                 <a href="https://met.hu/">  Országos Meteorológiai Szolgálat </a>
-            </div>
-        <div class="break"></div>   
-        <div class="block1">
-                <p>© Icons: </p>
-                <a href="https://icons8.com/icon/GzYDj7oXQlke/bee"> Icons8 </a>
-        </div>
+            </div>       
         </div>      
     </div>   
 </body>
