@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name = 'Author' content="Vincze Csilla">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
     <title> Meteorológiai Adattár </title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
@@ -18,12 +18,16 @@
     <!-- Load jQuery and PapaParse to read data from a CSV file --> 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+
+    <!-----------JSZIP----------->
+    <script src="jszip.js"></script>
     
     <!--Webstyle-->
     <link rel="stylesheet" href="Webkarto/style.css">
     <!-- Load icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <!--favicon-->
+    <link href="Webkarto/favicon.ico" rel="icon" type="image/x-icon" />
 </head>  
 
 <body>
@@ -47,8 +51,12 @@
             <script>
                 var map = L.map('map').setView([47.475,19.062], 7);
                 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    minZoom: 5,
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
+                
+                //rétegcsoport
+			    var varosok=L.layerGroup().addTo(map);
 
                 // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
                 function kereses() {                   
@@ -56,11 +64,16 @@
                     var h=document.getElementById("hely").value;
                     var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
                         fetch(url).then(r=>r.json()).then(data=>{
-                            var eredmeny=L.geoJson(data).addTo(map).bindTooltip(tooltipszöveg);
+                            var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
                             }); 
                     //clear text        
                     document.getElementById("hely").value="";                                   
                     };
+                
+                function clearmap() {                   
+                        varosok.clearLayers();
+                    };
+
                 //Press Enter hely kereses    
                 var input = document.getElementById("hely");
                     input.addEventListener("keypress", function(event) {
@@ -105,7 +118,28 @@
                 
                 map.attributionControl.setPrefix(
                 'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
-                            );   
+                            );
+                            
+                // find me : map.locate({setView: true, maxZoom: 16});
+                //https://leafletjs.com/examples/mobile/
+
+                // metdata fom zip file
+                var zip = new JSZip();
+                    fetch('./Webkarto/HABP_10M_13704_now.zip')
+                        .then(r=>r.arrayBuffer())
+                            .then(d=>zip.loadAsync(d))
+                                .then(z=>z.file(/./)[0].async("text"))
+                                    .then(d=>{
+                                        let sorok=d.split('\n');
+                                        for (let i=7;i<sorok.length;i++) {
+                                            let adatok=sorok[i].split(';');
+                                            for (let j in adatok) {
+                                                adatok[j]=adatok[j].trim();
+                                            }
+                                            console.log(adatok.join(','));
+                                        }
+                                    });
+
                 </script>  
         </div>      
     </div>   
