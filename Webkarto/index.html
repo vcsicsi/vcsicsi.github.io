@@ -4,24 +4,17 @@
     <meta charset="UTF-8">
     <meta name = 'Author' content="Vincze Csilla">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title> Meteorológiai Adattár </title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-     crossorigin=""/>
-
-     <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-    crossorigin=""></script>
-    
+    <title> Meteorológiai Adattár </title>  
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>    
     <!-- Load jQuery and PapaParse to read data from a CSV file --> 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
-
     <!-----------JSZIP----------->
     <script src="Webkarto/jszip.js"></script>
-    
+    <!--Nearest neigbour-->
+    <script scr="https://unpkg.com/leaflet-knn@0.1.0/leaflet-knn.js"></script>
     <!--Webstyle-->
     <link rel="stylesheet" href="Webkarto/style.css">
     <!-- Load icon library -->
@@ -29,7 +22,6 @@
     <!--favicon-->
     <link href="Webkarto/favicon.ico" rel="icon" type="image/x-icon" />
 </head>  
-
 <body>
     <div class="menu">
      <div class="menu-flex"> 
@@ -45,7 +37,6 @@
         </form>
      </div> 
     </div>
-
     <div class="content_p">                     
         <div id="map">
             <script>
@@ -54,96 +45,94 @@
                     minZoom: 5,
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
-                
+                map.attributionControl.setPrefix(
+                'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
+                            );  
+                            
                 //rétegcsoport
-			    var varosok=L.layerGroup().addTo(map);
+                var varosok=L.layerGroup().addTo(map);
+                var stations=L.layerGroup().addTo(map);
 
                 // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
                 function kereses() {                   
-                    // megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
-                    var h=document.getElementById("hely").value;
-                    var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
-                        fetch(url).then(r=>r.json()).then(data=>{
-                            var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
-                            }); 
-                    //clear text        
-                    document.getElementById("hely").value="";                                   
-                    };
-                
+                // megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
+                var h=document.getElementById("hely").value;
+                var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
+                    fetch(url).then(r=>r.json()).then(data=>{
+                        var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
+                        }); 
+                //clear text        
+                document.getElementById("hely").value="";                                   
+                }; 
+
                 function clearmap() {                   
-                        varosok.clearLayers();
-                    };
+                    varosok.clearLayers();
+                };
 
                 //Press Enter hely kereses    
                 var input = document.getElementById("hely");
-                    input.addEventListener("keypress", function(event) {
-                        if (event.key === "Enter") {
-                            event.preventDefault();
-                            document.getElementById("Btn").click();
-                            event.currentTarget.value = "";
-                        }
-                 });
+                input.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                        document.getElementById("Btn").click();
+                        event.currentTarget.value = "";
+                    }
+                });
 
                 //tooltip a geokódoláshoz        
                 function tooltipszöveg (layer){
-                    var prop = layer.feature.properties;
-                    return (prop.icon?('<img src="'+prop.icon+'">'):'')
-                            +layer.feature.properties.display_name;
-                 }; 
+                var prop = layer.feature.properties;
+                return (prop.icon?('<img src="'+prop.icon+'">'):'')
+                        +layer.feature.properties.display_name;
+                }; 
 
                 //met.hu állomások rétegcsoport
                 //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
                 $.get('./Webkarto/data.csv', function(csv) {
-                    var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
-                                skipEmptyLines: true, dynamicTyping: true, 
-                                transformHeader:function(h) {
-                                return h.trim();
-                                }
-                        }).data;
-                    for (var i in data) {
-                        var row = data[i];
-                        var marker = L.marker([row.Latitude, row.Longitude], {
-                                opacity: 1, 
-                                icon: L.icon ({
-                                iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-                                iconSize:     [28, 45],
-                                iconAnchor: [22, 44],
-                                popupAnchor: [20, 44],
-                            })                            
-                            }).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName);
-                        marker.addTo(map);
-                    }
-                    console.log(data);
-                        });
-                
-                map.attributionControl.setPrefix(
-                'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
-                            );
-                            
+                var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
+                            skipEmptyLines: true, dynamicTyping: true, 
+                            transformHeader:function(h) {
+                            return h.trim();
+                            }
+                    }).data;
+                for (var i in data) {
+                    var row = data[i];
+                    var marker = L.marker([row.Latitude, row.Longitude], {
+                            opacity: 1, 
+                            icon: L.icon ({
+                            iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
+                            iconSize:     [28, 45],
+                            iconAnchor: [22, 44],
+                            popupAnchor: [20, 44],
+                        })                            
+                        }).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName);
+                    marker.addTo(stations);  
+                }
+                //console.log(data)
+                    }); 
+                                            
                 // find me : map.locate({setView: true, maxZoom: 16});
-                //https://leafletjs.com/examples/mobile/
+                            //https://leafletjs.com/examples/mobile/
 
-                // metdata fom zip file
-                var zip = new JSZip();
-                    fetch('./Webkarto/HABP_10M_13704_now.zip')
-                        .then(r=>r.arrayBuffer())
-                            .then(d=>zip.loadAsync(d))
-                                .then(z=>z.file(/./)[0].async("text"))
-                                    .then(d=>{
-                                        let sorok=d.split('\n');
-                                        for (let i=7;i<sorok.length;i++) {
-                                            let adatok=sorok[i].split(';');
-                                            for (let j in adatok) {
-                                                adatok[j]=adatok[j].trim();
-                                            }
-                                            console.log(adatok.join(','));
-                                        }
-                                    });
-
-                </script>  
+                            // metdata fom zip file
+                            var zip = new JSZip();
+                                fetch('./Webkarto/HABP_10M_13704_now.zip')
+                                    .then(r=>r.arrayBuffer())
+                                        .then(d=>zip.loadAsync(d))
+                                            .then(z=>z.file(/./)[0].async("text"))
+                                                .then(d=>{
+                                                    let sorok=d.split('\n');
+                                                    for (let i=7;i<sorok.length;i++) {
+                                                        let adatok=sorok[i].split(';');
+                                                        for (let j in adatok) {
+                                                            adatok[j]=adatok[j].trim();
+                                                        }
+                                                        // console.log(adatok.join(','));
+                                                    }
+                                                });                                                   
+            </script>  
         </div>      
     </div>   
-
     <div class="footer">
             <hr>
     <div class="break"></div>
