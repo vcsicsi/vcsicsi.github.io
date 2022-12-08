@@ -13,8 +13,9 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
     <!-----------JSZIP----------->
     <script src="Webkarto/jszip.js"></script>
-    <!--Nearest neigbour-->
+    <!--Nearest neighbour-->
     <script scr="https://unpkg.com/leaflet-knn@0.1.0/leaflet-knn.js"></script>
+    <script src="https://npmcdn.com/leaflet-geometryutil"></script>
     <!--Webstyle-->
     <link rel="stylesheet" href="Webkarto/style.css">
     <!-- Load icon library -->
@@ -40,7 +41,10 @@
     <div class="content_p">                     
         <div id="map">
             <script>
-                var map = L.map('map').setView([47.475,19.062], 7);
+                var  map = L.map('map').setView([47.475,19.062], 7),
+                     varosok=L.layerGroup().addTo(map),
+                     stations=L.layerGroup().addTo(map);
+                     
                 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     minZoom: 5,
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -48,10 +52,6 @@
                 map.attributionControl.setPrefix(
                 'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
                             );  
-                            
-                //rétegcsoport
-                var varosok=L.layerGroup().addTo(map);
-                var stations=L.layerGroup().addTo(map);
 
                 // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
                 function kereses() {                   
@@ -63,8 +63,8 @@
                         }); 
                 //clear text        
                 document.getElementById("hely").value="";                                   
-                }; 
-
+                };
+                
                 function clearmap() {                   
                     varosok.clearLayers();
                 };
@@ -85,31 +85,52 @@
                 return (prop.icon?('<img src="'+prop.icon+'">'):'')
                         +layer.feature.properties.display_name;
                 }; 
+               
+               stationsGeoJSON = {
+                        "type": "FeatureCollection",
+                        "features": [ ]
+                    };
 
-                //met.hu állomások rétegcsoport
+                var stationIcon = L.icon ({
+                        iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
+                        iconSize:     [28, 45],
+                        iconAnchor: [22, 44],
+                        popupAnchor: [20, 44],
+                    });     
+
+                 //met.hu állomások rétegcsoport
                 //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
                 $.get('./Webkarto/data.csv', function(csv) {
                 var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
                             skipEmptyLines: true, dynamicTyping: true, 
                             transformHeader:function(h) {
-                            return h.trim();
-                            }
-                    }).data;
-                for (var i in data) {
-                    var row = data[i];
-                    var marker = L.marker([row.Latitude, row.Longitude], {
-                            opacity: 1, 
-                            icon: L.icon ({
-                            iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-                            iconSize:     [28, 45],
-                            iconAnchor: [22, 44],
-                            popupAnchor: [20, 44],
-                        })                            
-                        }).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName);
-                    marker.addTo(stations);  
-                }
-                //console.log(data)
-                    }); 
+                            return h.trim()},
+                            complete: function(results) {
+                                results.data.forEach((row) => {
+                                feature = {"type": "Feature",
+                                            "geometry": {
+                                            "type": "Point",
+                                            "coordinates": [row.Longitude, row.Latitude] },
+                                            "properties": {
+                                            "Location": row.StationName }}
+                                stations_layer = L.geoJSON(feature, {
+                                                pointToLayer: function (feature, latlng) {
+                                                            return L.marker(latlng, {icon: stationIcon});
+                                                    }}).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName).addTo(stations)
+                                stationsGeoJSON.features.push(feature)
+                                 })    
+                               }
+                            });
+                        });        
+                console.log(stationsGeoJSON);
+                console.log(stations);
+                console.log(stations.getLayers().map(l => l.feature.geometry.coordinates));
+                //var coordinates_array = stationsGeoJSON.features.geometry.coordinates();        
+                //const coordinates_array = stations.getLayers().map(l => l.feature.geometry.coordinates);
+                //nearest = L.GeometryUtil.closest(map, stationsGeoJSON, [47.475, 19.062]);
+                //var nearest = leafletKnn(stationsGeoJSON).nearest(L.latLng(47.475, 19.062), 5);
+                //markerClosestPolygon1 = L.marker(nearest).addTo(map).bindPopup('Closest point on polygon1');
+    
                                             
                 // find me : map.locate({setView: true, maxZoom: 16});
                             //https://leafletjs.com/examples/mobile/
