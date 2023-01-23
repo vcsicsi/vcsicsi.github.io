@@ -124,7 +124,7 @@
                         });        
                 console.log(stationsGeoJSON);
                 console.log(stations);
-                console.log(stations.getLayers().map(l => l.feature.geometry.coordinates));
+                console.log(stations.features().getGeometry().getCoordinates());
                 //var coordinates_array = stationsGeoJSON.features.geometry.coordinates();        
                 //const coordinates_array = stations.getLayers().map(l => l.feature.geometry.coordinates);
                 //nearest = L.GeometryUtil.closest(map, stationsGeoJSON, [47.475, 19.062]);
