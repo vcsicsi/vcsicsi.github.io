@@ -42,7 +42,7 @@
         <div id="map">
             <script>
                 var  map = L.map('map').setView([47.475,19.062], 7),
-                     csoport=L.layerGroup.addTo(map),
+                     csoport=L.layerGroup().addTo(map),
                      varosok=L.layerGroup().addTo(csoport),
                      stations=L.layerGroup().addTo(map);
                      
