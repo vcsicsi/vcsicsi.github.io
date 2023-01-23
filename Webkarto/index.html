@@ -124,9 +124,9 @@
                         });        
                 console.log(stationsGeoJSON);
                 console.log(stations);
-                var features = stationsGeoJSON.getSource().getFeatures();
+                var features = stationsGeoJSON.getFeatures();
                             features.forEach((feature) => {
-                                console.log(feature.getCoordinates())
+                                console.log(feature.getGeometry().getCoordinates())
                             });
 
                 //var coordinates_array = stationsGeoJSON.features.geometry.coordinates();        
