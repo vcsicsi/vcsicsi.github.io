@@ -42,8 +42,9 @@
         <div id="map">
             <script>
                 var  map = L.map('map').setView([47.475,19.062], 7),
-                     varosok=L.layerGroup().addTo(map),
-                     stations=L.layerGroup().addTo(map);
+                     varosok=L.layerGroup().addTo(csoport),
+                     stations=L.layerGroup().addTo(map),
+                     csoport=L.layerGroup.addTo(map);
                      
                 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     minZoom: 5,
@@ -65,8 +66,9 @@
                 document.getElementById("hely").value="";                                   
                 };
                 
+                //x-el kitörlöm a layereket
                 function clearmap() {                   
-                    varosok.clearLayers();
+                    csoport.clearLayers();
                 };
 
                 //Press Enter hely kereses    
@@ -124,14 +126,22 @@
                         });        
                 console.log(stationsGeoJSON);
                 console.log(stations);
-                console.log(stations_layer);
 
-                searchIndex = leafletKnn(stationsGeoJSON);
-                console.log(searchIndex);        
+                //legközelebbi allomas keresese:
+                var nearest = leafletKnn(stationsGeoJSON).nearest(L.latLng(47.475, 19.062), 5);
+               
+                //vonal rajzolasa a 2 koze
+                var d=map.distance(nearest, varosok);
+				L.polyline(csoport).addTo(csoport)
+					.bindPopup("távolság: "+d.toFixed(0)+" m")
+					.openPopup();
+
+                //rakozelites a vonalra    
+                map.fitBounds(csoport.getBounds());
+                //Egyebek:         
                 //var coordinates_array = stationsGeoJSON.features.geometry.coordinates();        
                 //const coordinates_array = stations.getLayers().map(l => l.feature.geometry.coordinates);
                 //nearest = L.GeometryUtil.closest(map, stationsGeoJSON, [47.475, 19.062]);
-                var nearest = leafletKnn(stationsGeoJSON).nearest(L.latLng(47.475, 19.062), 5);
                 //markerClosestPolygon1 = L.marker(nearest).addTo(map).bindPopup('Closest point on polygon1');
     
                                             
