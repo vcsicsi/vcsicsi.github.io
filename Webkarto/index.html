@@ -126,9 +126,10 @@
                         });        
                 console.log(stationsGeoJSON);
                 console.log(stations);
+                console.log(varosok);
 
                 //legközelebbi allomas keresese:
-                var nearest = leafletKnn(stationsGeoJSON).nearest(L.latLng(47.475, 19.062), 5);
+                var nearest = leafletKnn(stationsGeoJSON).nearest(varosok.latlng, 5);
                
                 //vonal rajzolasa a 2 koze
                 var d=map.distance(nearest, varosok);
