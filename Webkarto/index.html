@@ -124,15 +124,13 @@
                         });        
                 console.log(stationsGeoJSON);
                 console.log(stations);
-                var features = stationsGeoJSON.getFeatures();
-                            features.forEach((feature) => {
-                                console.log(feature.getGeometry().getCoordinates())
-                            });
 
+                searchIndex = leafletKnn(stationsGeoJSON);
+                console.log(searchIndex);        
                 //var coordinates_array = stationsGeoJSON.features.geometry.coordinates();        
                 //const coordinates_array = stations.getLayers().map(l => l.feature.geometry.coordinates);
                 //nearest = L.GeometryUtil.closest(map, stationsGeoJSON, [47.475, 19.062]);
-                //var nearest = leafletKnn(stationsGeoJSON).nearest(L.latLng(47.475, 19.062), 5);
+                var nearest = leafletKnn(stationsGeoJSON).nearest(L.latLng(47.475, 19.062), 5);
                 //markerClosestPolygon1 = L.marker(nearest).addTo(map).bindPopup('Closest point on polygon1');
     
                                             
