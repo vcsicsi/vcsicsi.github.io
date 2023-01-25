@@ -43,16 +43,16 @@
             <script>
                 var  map = L.map('map').setView([47.475,19.062], 7),
                      varosok=L.layerGroup().addTo(map),
-                     stations=L.layerGroup().addTo(map);
-                     
-                     
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    minZoom: 5,
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
-                map.attributionControl.setPrefix(
-                'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
-                            );  
+                     stations=L.layerGroup().addTo(map),
+                     pontok=[];
+                       
+                        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            minZoom: 5,
+                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        }).addTo(map);
+                        map.attributionControl.setPrefix(
+                        'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
+                                    );  
 
                 // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
                 function kereses() {                   
@@ -61,25 +61,29 @@
                 var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
                     fetch(url).then(r=>r.json()).then(data=>{
                         var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
-
-                        eredmeny.on('click',e=>{
-                                let hely=e.latlng;
-                                let dmin=21000000; // ennél semmi sem lehet messzebb a földön
-                                let pont;
-                                stations.eachLayer(l=>{
-                                    let d=hely.distanceTo(l.getLayers()[0].getLatLng());
-                                    if (d<dmin) {
-                                        dmin=d;
-                                        pont=l.getLayers()[0];
-                                    }
-                                })
-                                pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000)+'km').openPopup();
-                                //vonal rajzolasa a 2 koze
-                                L.polyline([pont,eredmeny]).addTo(map)
-                                    .bindPopup("távolság: "+dmin.toFixed(0)+" m")
-                                    .openPopup();
-                                            })
-                                        });        
+                            eredmeny.on('click',e=>{
+                                    let hely=e.latlng;
+                                        pontok.push(e.latlng);
+                                    let dmin=21000000; // ennél semmi sem lehet messzebb a földön
+                                    let pont;
+                                    stations.eachLayer(l=>{
+                                        let d=hely.distanceTo(l.getLayers()[0].getLatLng());
+                                        if (d<dmin) {
+                                            dmin=d;
+                                            pont=l.getLayers()[0];
+                                            pontok.push(l.getLayers()[0].getLatLng());
+                                        }
+                                    })
+                                    pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin.toFixed(2)/1000)+'km').openPopup();
+                                    //rakozelites a vonalra    
+                                    map.fitBounds(pont.getBounds());
+                        
+                                    //vonal rajzolasa a 2 koze
+                                    L.polyline(pontok).addTo(map)
+                                        .bindPopup("távolság: "+dmin.toFixed(0)+" m")
+                                        .openPopup();
+                                                })
+                                            });        
 
                 //clear text        
                 document.getElementById("hely").value="";                                   
@@ -143,12 +147,7 @@
                                }
                             });
                         });        
-
-               
-
-                //rakozelites a vonalra    
-                // map.fitBounds(csoport.getBounds());
-                                                            
+                                        
                 // find me : map.locate({setView: true, maxZoom: 16});
                             //https://leafletjs.com/examples/mobile/
 
