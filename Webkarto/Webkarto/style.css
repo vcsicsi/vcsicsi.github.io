@@ -129,7 +129,20 @@
     position: relative;
     width: 100%;
     height: calc(80vh - 80px);
-    padding: 3vw;
+    padding-top: 3vw;
+}
+.graph p {
+  font-size: 2vw;
+  color: rgb(22, 22, 22);
+}
+
+.myPlot {
+  padding-top: 3vw;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
 }
 
 .footer {
