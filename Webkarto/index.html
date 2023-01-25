@@ -51,10 +51,9 @@
                 var  map = L.map('map').setView([47.475,19.062], 7),
                      varosok=L.layerGroup().addTo(map),
                      stations=L.layerGroup().addTo(map),
-                     pontok=[]
+                     pontok=[],
                      dolgok=L.layerGroup().addTo(map);
-                var dolgok=L.layerGroup().addTo(map);
-                       
+                              
                         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             minZoom: 5,
                             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -73,7 +72,6 @@
                             eredmeny.on('click',e=>{
                                     let hely=e.latlng;
                                     pontok.push(e.latlng);
-                                    console.log(hely);
                                     let dmin=21000000; // ennél semmi sem lehet messzebb a földön
                                     let pont;
                                     stations.eachLayer(l=>{
@@ -83,10 +81,11 @@
                                             pont=l.getLayers()[0];
                                         }                               
                                     })
-                                    console.log(pont.getLatLng());
+                                    pontok.push(pont.getLatLng());
                                     pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup();         
                                     //vonal rajzolasa a 2 koze
                                     console.log(pontok);
+                                    
                                     L.polyline(pontok).addTo(dolgok)
                                         .bindPopup("távolság: "+dmin.toFixed(0)+" m")
                                         .openPopup();
