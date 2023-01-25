@@ -126,8 +126,10 @@
 }
 
 .graph {
+    position: relative;
+    width: 100%;
     height: calc(80vh - 80px);
-    padding: 1vw;
+    padding: 3vw;
 }
 
 .footer {
