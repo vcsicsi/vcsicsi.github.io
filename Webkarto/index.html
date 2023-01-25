@@ -11,11 +11,10 @@
     <!-- Load jQuery and PapaParse to read data from a CSV file --> 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
-    <!-----------JSZIP----------->
+    <!--JSZIP-->
     <script src="Webkarto/jszip.js"></script>
-    <!--Nearest neighbour-->
-    <script scr="https://unpkg.com/leaflet-knn@0.1.0/leaflet-knn.js"></script>
-    <script src="https://npmcdn.com/leaflet-geometryutil"></script>
+    <!--ploty-->
+    <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
     <!--Webstyle-->
     <link rel="stylesheet" href="Webkarto/style.css">
     <!-- Load icon library -->
@@ -56,15 +55,13 @@
 
                 var stationsGeoJSON = {
                         "type": "FeatureCollection",
-                        "features": [ ]
-                    };
+                        "features": [ ]};
 
                 var stationIcon = L.icon ({
                         iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
                         iconSize:     [28, 45],
                         iconAnchor: [14, 44],
-                        popupAnchor: [0, 0],
-                    });     
+                        popupAnchor: [0, 0],});     
      
                 //map              
                 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -200,11 +197,41 @@
                                             for (let j in adatok) {
                                                 adatok[j]=adatok[j].trim();
                                             }
-                                            // console.log(adatok.join(','));
+                                            //console.log(adatok.join(','));
                                         }
-                                    });                                                   
+                                    });
+                console.log(adatok.join(','));                                                               
             </script>  
-        </div>      
+        </div>
+        <div id = "graph">
+            <form class="btn_keres2">
+                <input type="text" placeholder="Code" name="search1" id="code" />
+                <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
+            </form>
+            <p> (13704) Meteorológiai állomás grafikus megjelenítése: </p>
+               <script>
+                    var xArray = [50,60,70,80,90,100,110,120,130,140,150];
+                    var yArray = [7,8,8,9,9,9,10,11,14,14,15];
+
+                    // Define Data
+                    var data = [{
+                    x: xArray,
+                    y: yArray,
+                    mode:"markers",
+                    type:"scatter"
+                    }];
+
+                    // Define Layout
+                    var layout = {
+                    xaxis: {range: [40, 160], title: "Square Meters"},
+                    yaxis: {range: [5, 16], title: "Price in Millions"},
+                    title: "House Prices vs. Size"
+                    };
+
+                    Plotly.newPlot("myPlot", data, layout);
+                    
+               </script> 
+        </div>
     </div>   
     <div class="footer">
             <hr>
