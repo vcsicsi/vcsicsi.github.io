@@ -32,9 +32,16 @@
        </div>
         <!-- The form -->
         <form class="btn_keres">
-            <input type="text" placeholder="Search.." name="search" id="hely" />
+            <input type="text" placeholder="Name to Search.." name="search" id="hely" />
             <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
             <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button>
+        </form>
+        <!--Form 2 by latlon -->
+       <!-- <form class="btn_keres2"> -->
+       <!-- <input type="number" placeholder="Longitude.." name="search" id="lon"/> -->
+       <!-- <input type="number" placeholder="Latitude.." name="search" id="lat"/> -->
+       <!-- <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button> -->
+       <!-- <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button> -->
         </form>
      </div> 
     </div>
@@ -45,6 +52,7 @@
                      varosok=L.layerGroup().addTo(map),
                      stations=L.layerGroup().addTo(map),
                      pontok=[];
+                var dolgok=L.layerGroup().addTo(map);
                        
                         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             minZoom: 5,
@@ -63,7 +71,8 @@
                         var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
                             eredmeny.on('click',e=>{
                                     let hely=e.latlng;
-                                        pontok.push(e.latlng);
+                                        pontok.push(hely);
+                                        console.log(pontok);
                                     let dmin=21000000; // ennél semmi sem lehet messzebb a földön
                                     let pont;
                                     stations.eachLayer(l=>{
@@ -71,7 +80,7 @@
                                         if (d<dmin) {
                                             dmin=d;
                                             pont=l.getLayers()[0];
-                                            pontok.push(l.getLayers()[0].getLatLng());
+                                            pontok.push(pont);
                                         }
                                     })
                                     pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin.toFixed(2)/1000)+'km').openPopup();
@@ -84,6 +93,19 @@
                                         .openPopup();
                                                 })
                                             });        
+                
+                //by click              
+                //map.on('click', function(e) {
+                //     //marker
+                //         L.marker(e.latlng).addTo(dolgok)
+                //             .bindPopup()
+                //             .openPopup();
+                //         pontok.push(e.latlng);				
+                //    var d=map.distance(pontok[0], pontok[1]);
+                //         L.polyline(pontok).addTo(dolgok)
+                //             .bindPopup("távolság: "+d.toFixed(0)+" m")
+                //             .openPopup();				
+                //         });				
 
                 //clear text        
                 document.getElementById("hely").value="";                                   
