@@ -211,18 +211,17 @@
                                                 for (let j in adatok) {
                                                     adatok[j]=adatok[j].trim();
                                                 }
-                                                datum.push(adatok[1]);
-                                                akthom.push(Number(adatok[4]));
+                                            var data = [{  
+                                                x: datum.push(adatok[1]),
+                                                y: akthom.push(Number(adatok[4])),
+                                                mode:"lines",
+                                                type:"scatter"
+                                            }]  ;
                                             }
                                         });
                     console.log(datum);                    
                     // Define Data
-                    var data = [{
-                        x: datum,
-                        y: akthom,
-                        mode:"lines",
-                        type:"scatter"
-                    }];
+                 
                     
                     console.log(data);
 
