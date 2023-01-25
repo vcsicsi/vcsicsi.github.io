@@ -198,6 +198,7 @@
                     // metdata fom zip file
                     var zip = new JSZip();
                     var datum=[];
+                    var akthom=[];
                         fetch('./Webkarto/HABP_10M_13704_now.zip')
                             .then(r=>r.arrayBuffer())
                                 .then(d=>zip.loadAsync(d))
@@ -209,6 +210,7 @@
                                                 for (let j in adatok) {
                                                     adatok[j]=adatok[j].trim();
                                                     datum.push(adatok[1]);
+                                                    akthom.push(adatok[5]);
                                                 }
                                                 //console.log(adatok.join(','));
                                             }
@@ -219,7 +221,7 @@
 
                     // Define Data
                     var data = [{
-                    x: xArray,
+                    x: datum,
                     y: yArray,
                     mode:"lines",
                     type:"scatter"
