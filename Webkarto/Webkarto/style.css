@@ -142,8 +142,7 @@
   padding-bottom: 1vw;
 }
 
-.myPlot {
-  padding-top: 20vw;
+.graph #myPlot {
   position: absolute;
   justify-content: center;
   align-items: center;
