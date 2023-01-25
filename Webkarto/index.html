@@ -210,14 +210,11 @@
                                                 for (let j in adatok) {
                                                     adatok[j]=adatok[j].trim();
                                                 }
-                                                datum.push(adatok[1]);
+                                                datum.push(Number(adatok[1]));
                                                 akthom.push(Number(adatok[4]));
                                             }
                                         });
                     console.log(datum);
-                    const pattern= /(\d{4})\(\d{2})\(\d{2})\(\d{2})\(\d{2})/;                    
-                    var ido=new Date(datum.split(pattern));
-                    console.log(ido);
 
                     // Define Data
                     var data = [{
