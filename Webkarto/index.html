@@ -72,7 +72,7 @@
                             eredmeny.on('click',e=>{
                                     let hely=e.latlng;
                                         pontok.push(hely[0]);
-                                        console.log(pontok);
+                                        console.log(hely[0]);
                                     let dmin=21000000; // ennél semmi sem lehet messzebb a földön
                                     let pont;
                                     stations.eachLayer(l=>{
@@ -80,8 +80,9 @@
                                         if (d<dmin) {
                                             dmin=d;
                                             pont=l.getLayers()[0];
-                                            console.log(pont.latlng);
-                                            pontok.push(pont.latlng);
+                                            console.log(pont);
+                                            pontok.push(pont);
+                                            console.log(pontok);
                                         }
                                     })
                                     pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup();
