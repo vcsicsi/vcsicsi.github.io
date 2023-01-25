@@ -210,19 +210,16 @@
                                                 for (let j in adatok) {
                                                     adatok[j]=adatok[j].trim();
                                                     datum.push(adatok[1]);
-                                                    akthom.push(adatok[5]);
+                                                    akthom.push(adatok[6]);
                                                 }
                                                 //console.log(adatok.join(','));
                                             }
                                         });
-                    //console.log(datum);                    
-                    var xArray = [50,60,70,80,90,100,110,120,130,140,150];
-                    var yArray = [7,8,8,9,9,9,10,11,14,14,15];
-
+                   
                     // Define Data
                     var data = [{
                     x: datum,
-                    y: yArray,
+                    y: akthom,
                     mode:"lines",
                     type:"scatter"
                     }];
