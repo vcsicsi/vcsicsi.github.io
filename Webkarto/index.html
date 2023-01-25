@@ -53,8 +53,21 @@
                      stations=L.layerGroup().addTo(map),
                      pontok=[],
                      dolgok=L.layerGroup().addTo(map);
-                              
-                        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+                var stationsGeoJSON = {
+                        "type": "FeatureCollection",
+                        "features": [ ]
+                    };
+
+                var stationIcon = L.icon ({
+                        iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
+                        iconSize:     [28, 45],
+                        iconAnchor: [14, 44],
+                        popupAnchor: [0, 0],
+                    });     
+     
+                //map              
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             minZoom: 5,
                             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         }).addTo(map);
@@ -62,7 +75,32 @@
                         'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
                                     );  
 
-                // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
+                //met.hu állomások rétegcsoport
+                //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
+                $.get('./Webkarto/data.csv', function(csv) {
+                var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
+                            skipEmptyLines: true, dynamicTyping: true, 
+                            transformHeader:function(h) {
+                            return h.trim()},
+                            complete: function(results) {
+                                results.data.forEach((row) => {
+                                feature = {"type": "Feature",
+                                            "geometry": {
+                                            "type": "Point",
+                                            "coordinates": [row.Longitude, row.Latitude] },
+                                            "properties": {
+                                            "Location": row.StationName }}
+                                stations_layer = L.geoJSON(feature, {
+                                                pointToLayer: function (feature, latlng) {
+                                                            return L.marker(latlng, {icon: stationIcon});
+                                                    }}).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName).addTo(stations)
+                                stationsGeoJSON.features.push(feature)
+                                 })    
+                               }
+                            });
+                        });       
+                
+            // --------------FUNKCIÓK: ------------------------   
                 function kereses() {                   
                 // megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
                 var h=document.getElementById("hely").value;
@@ -89,33 +127,8 @@
                                         .bindPopup("Távolság: "+(dmin/1000).toFixed(2)+" km")
                                         .openPopup();
                                                 });
-                        map.fitBounds(eredmeny.getBounds(), {padding: [20,20]});                                   
+                        map.fitBounds(eredmeny.getBounds(), {padding: [200, 200]});                                   
                                             });        
-    
-                //by click              
-                //map.on('click', function(e) {
-                //     //marker
-                //         helyid = e.latlng;
-                //         L.marker(e.latlng).addTo(dolgok)
-                //             .bindPopup()
-                //             .openPopup();
-                //         pontok.push(e.latlng);
-                //    let dmin=21000000; // ennél semmi sem lehet messzebb a földön
-                //    let pont;
-                //    stations.eachLayer(l=>{
-                //    let helyid.distanceTo(l.getLayers()[0].getLatLng());
-                //                        if (d<dmin) {
-                //                            dmin=d;
-                //                            pont=l.getLayers()[0];
-                //                            pontok.push(pont);
-                //                        }
-                //                    })				
-                //    var d=map.distance(pontok[0], pontok[1]);
-                //         L.polyline(pontok).addTo(dolgok)
-                //             .bindPopup("távolság: "+d.toFixed(0)+" m")
-                //             .openPopup();				
-                //         });				
-
                 //clear text        
                 document.getElementById("hely").value="";
                 };
@@ -143,43 +156,30 @@
                         +layer.feature.properties.display_name;
                 }; 
                
-                var stationsGeoJSON = {
-                        "type": "FeatureCollection",
-                        "features": [ ]
-                    };
+                //by click              
+                //map.on('click', function(e) {
+                //     //marker
+                //         helyid = e.latlng;
+                //         L.marker(e.latlng).addTo(dolgok)
+                //             .bindPopup()
+                //             .openPopup();
+                //         pontok.push(e.latlng);
+                //    let dmin=21000000; // ennél semmi sem lehet messzebb a földön
+                //    let pont;
+                //    stations.eachLayer(l=>{
+                //    let helyid.distanceTo(l.getLayers()[0].getLatLng());
+                //                        if (d<dmin) {
+                //                            dmin=d;
+                //                            pont=l.getLayers()[0];
+                //                            pontok.push(pont);
+                //                        }
+                //                    })				
+                //    var d=map.distance(pontok[0], pontok[1]);
+                //         L.polyline(pontok).addTo(dolgok)
+                //             .bindPopup("távolság: "+d.toFixed(0)+" m")
+                //             .openPopup();				
+                //         });			        
 
-                var stationIcon = L.icon ({
-                        iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-                        iconSize:     [28, 45],
-                        iconAnchor: [14, 44],
-                        popupAnchor: [0, 0],
-                    });     
-
-                 //met.hu állomások rétegcsoport
-                //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
-                $.get('./Webkarto/data.csv', function(csv) {
-                var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
-                            skipEmptyLines: true, dynamicTyping: true, 
-                            transformHeader:function(h) {
-                            return h.trim()},
-                            complete: function(results) {
-                                results.data.forEach((row) => {
-                                feature = {"type": "Feature",
-                                            "geometry": {
-                                            "type": "Point",
-                                            "coordinates": [row.Longitude, row.Latitude] },
-                                            "properties": {
-                                            "Location": row.StationName }}
-                                stations_layer = L.geoJSON(feature, {
-                                                pointToLayer: function (feature, latlng) {
-                                                            return L.marker(latlng, {icon: stationIcon});
-                                                    }}).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName).addTo(stations)
-                                stationsGeoJSON.features.push(feature)
-                                 })    
-                               }
-                            });
-                        });        
-                                        
                 // find me : map.locate({setView: true, maxZoom: 16});
                             //https://leafletjs.com/examples/mobile/
 
