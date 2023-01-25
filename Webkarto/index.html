@@ -80,10 +80,9 @@
                                         if (d<dmin) {
                                             dmin=d;
                                             pont=l.getLayers()[0];
-                                            console.log(pont);
-                                            pontok.push(l.getLayers()[0]);
                                         }                               
                                     })
+                                    console.log(pont);
                                     pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup();
                                     //rakozelites a vonalra    
                                     map.fitBounds(pont.getBounds());         
