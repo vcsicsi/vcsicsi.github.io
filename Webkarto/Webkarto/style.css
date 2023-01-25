@@ -127,6 +127,8 @@
 
 .graph {
     position: relative;
+    text-align:center;
+    justify-content: center;
     width: 100%;
     height: calc(80vh - 80px);
     padding-top: 3vw;
