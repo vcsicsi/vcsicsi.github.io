@@ -71,8 +71,8 @@
                         var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
                             eredmeny.on('click',e=>{
                                     let hely=e.latlng;
-                                    pontok.push(hely);
-                                    console.log(hely);
+                                    pontok.push(e.latlng);
+                                    console.log(pontok);
                                     let dmin=21000000; // ennél semmi sem lehet messzebb a földön
                                     let pont;
                                     stations.eachLayer(l=>{
@@ -80,7 +80,7 @@
                                         if (d<dmin) {
                                             dmin=d;
                                             pont=l.getLayers()[0];
-                                            pontok.push(pont);
+                                            pontok.push(l.getLayers()[0]);
                                         }                               
                                     })
                                     pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup();
