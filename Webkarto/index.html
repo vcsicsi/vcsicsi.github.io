@@ -214,14 +214,12 @@
                                                 akthom.push(Number(adatok[4]));
                                             }
                                         });
-                    console.log(akthom);
-
                     // Define Data
                     var data = [{
-                    x: datum,
-                    y: akthom,
-                    mode:"lines",
-                    type:"scatter"
+                        x: [202212010000, 202212010010, 202212010020, 20221201003],
+                        y: [3.6, 3.6, 3.6, 3.4],
+                        mode:"lines",
+                        type:"scatter"
                     }];
                     
                     console.log(data);
@@ -230,10 +228,11 @@
                     var layout = {
                     xaxis: { title: "Time 10min"},
                     yaxis: { title: "Temperature in °C"},
-                    title: "Meteogram"
+                    title: "13704 Meteogram"
                     };
 
                     Plotly.newPlot("myPlot", data, layout);
+
                </script> 
             </div>
         </div>
