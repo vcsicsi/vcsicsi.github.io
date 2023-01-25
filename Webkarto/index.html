@@ -127,7 +127,7 @@
                                         .bindPopup("Távolság: "+(dmin/1000).toFixed(2)+" km")
                                         .openPopup();
                                                 });
-                        map.fitBounds(eredmeny.getBounds(), {padding: [500, 500]});                                   
+                        map.fitBounds(eredmeny.getBounds()).pad(0.5);                                   
                                             });        
                 //clear text        
                 document.getElementById("hely").value="";
