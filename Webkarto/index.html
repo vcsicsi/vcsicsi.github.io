@@ -62,7 +62,22 @@
                 var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
                     fetch(url).then(r=>r.json()).then(data=>{
                         var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
-                        }); 
+
+                        eredmeny.on('click',e=>{
+                                let hely=e.latlng;
+                                let dmin=21000000; // ennél semmi sem lehet messzebb a földön
+                                let pont;
+                                stations.eachLayer(l=>{
+                                    let d=hely.distanceTo(l.getLayers()[0].getLatLng());
+                                    if (d<dmin) {
+                                        dmin=d;
+                                        pont=l.getLayers()[0];
+                                    }
+                                })
+                                pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000)+'km').openPopup();
+                            })
+                        });        
+
                 //clear text        
                 document.getElementById("hely").value="";                                   
                 };
@@ -98,7 +113,7 @@
                         iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
                         iconSize:     [28, 45],
                         iconAnchor: [22, 44],
-                        popupAnchor: [20, 44],
+                        popupAnchor: [0, 0],
                     });     
 
                  //met.hu állomások rétegcsoport
@@ -125,28 +140,17 @@
                                }
                             });
                         });        
-                console.log(stationsGeoJSON);
-                console.log(stations);
-                console.log(varosok);
 
-                //legközelebbi allomas keresese:
-                var nearest = leafletKnn(stationsGeoJSON).nearest(varosok.latlng, 5);
                
                 //vonal rajzolasa a 2 koze
-                var d=map.distance(nearest, varosok);
-				L.polyline(csoport).addTo(csoport)
-					.bindPopup("távolság: "+d.toFixed(0)+" m")
-					.openPopup();
+                //var d=map.distance(nearest, varosok);
+				//L.polyline(csoport).addTo(csoport)
+				//	.bindPopup("távolság: "+d.toFixed(0)+" m")
+				//	.openPopup();
 
                 //rakozelites a vonalra    
-                map.fitBounds(csoport.getBounds());
-                //Egyebek:         
-                //var coordinates_array = stationsGeoJSON.features.geometry.coordinates();        
-                //const coordinates_array = stations.getLayers().map(l => l.feature.geometry.coordinates);
-                //nearest = L.GeometryUtil.closest(map, stationsGeoJSON, [47.475, 19.062]);
-                //markerClosestPolygon1 = L.marker(nearest).addTo(map).bindPopup('Closest point on polygon1');
-    
-                                            
+                // map.fitBounds(csoport.getBounds());
+                                                            
                 // find me : map.locate({setView: true, maxZoom: 16});
                             //https://leafletjs.com/examples/mobile/
 
