@@ -209,13 +209,14 @@
                                                 let adatok=sorok[i].split(';');
                                                 for (let j in adatok) {
                                                     adatok[j]=adatok[j].trim();
-                                                    datum.push(adatok[1]);
-                                                    akthom.push(adatok[6]);
                                                 }
-                                                console.log(adatok);
+                                                datum.push(adatok[1]);
+                                                akthom.push(Number(adatok[4]));
                                             }
                                         });
-                    var ido=new Date(datum.split('/\d{4}\\d{2}\\d{2}\\d{2})\\d{2}/'));
+                    console.log(datum);
+                    const pattern= /\d{4}\\d{2}\\d{2}\\d{2})\\d{2}/;                    
+                    var ido=new Date(datum.split(pattern));
                     console.log(ido);
 
                     // Define Data
