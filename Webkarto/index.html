@@ -211,9 +211,9 @@
                                                 for (let j in adatok) {
                                                     adatok[j]=adatok[j].trim();
                                                 }
-                                                console.log(adatok.join(","))
-                                                datum = adatok[1].join(",");
-                                                akthom= Number(adatok[4]).join(",");
+                                                //console.log(adatok.join(","))
+                                                datum.push(adatok[1]);
+                                                akthom.push(Number(adatok[4]));
                                             }
                                         });
                     console.log(datum);                    
