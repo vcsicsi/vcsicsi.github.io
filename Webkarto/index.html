@@ -199,7 +199,8 @@
                     var zip = new JSZip();
                     var datum=[];
                     var akthom=[];
-                        fetch('./Webkarto/HABP_10M_13704_now.zip')
+                        
+                    fetch('./Webkarto/HABP_10M_13704_now.zip')
                             .then(r=>r.arrayBuffer())
                                 .then(d=>zip.loadAsync(d))
                                     .then(z=>z.file(/./)[0].async("text"))
@@ -216,8 +217,8 @@
                                         });
                     // Define Data
                     var data = [{
-                        x: [202212010000, 202212010010, 202212010020, 20221201003],
-                        y: [3.6, 3.6, 3.6, 3.4],
+                        x: datum,
+                        y: akthom,
                         mode:"lines",
                         type:"scatter"
                     }];
@@ -226,8 +227,8 @@
 
                     // Define Layout
                     var layout = {
-                    xaxis: { title: "Time 10min"},
-                    yaxis: { title: "Temperature in °C"},
+                    xaxis: {title: "Time 10min"},
+                    yaxis: {title: "Temperature in °C"},
                     title: "13704 Meteogram"
                     };
 
