@@ -42,8 +42,7 @@
         <div id="map">
             <script>
                 var  map = L.map('map').setView([47.475,19.062], 7),
-                     csoport=L.layerGroup().addTo(map),
-                     varosok=L.layerGroup().addTo(csoport),
+                     varosok=L.layerGroup().addTo(map),
                      stations=L.layerGroup().addTo(map);
                      
                      
@@ -75,8 +74,12 @@
                                     }
                                 })
                                 pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000)+'km').openPopup();
-                            })
-                        });        
+                                //vonal rajzolasa a 2 koze
+                                L.polyline([pont,eredmeny]).addTo(map)
+                                    .bindPopup("távolság: "+dmin.toFixed(0)+" m")
+                                    .openPopup();
+                                            })
+                                        });        
 
                 //clear text        
                 document.getElementById("hely").value="";                                   
@@ -84,7 +87,7 @@
                 
                 //x-el kitörlöm a layereket
                 function clearmap() {                   
-                    csoport.clearLayers();
+                    varosok.clearLayers();
                 };
 
                 //Press Enter hely kereses    
@@ -104,7 +107,7 @@
                         +layer.feature.properties.display_name;
                 }; 
                
-               stationsGeoJSON = {
+                var stationsGeoJSON = {
                         "type": "FeatureCollection",
                         "features": [ ]
                     };
@@ -112,7 +115,7 @@
                 var stationIcon = L.icon ({
                         iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
                         iconSize:     [28, 45],
-                        iconAnchor: [22, 44],
+                        iconAnchor: [14, 44],
                         popupAnchor: [0, 0],
                     });     
 
@@ -142,11 +145,6 @@
                         });        
 
                
-                //vonal rajzolasa a 2 koze
-                //var d=map.distance(nearest, varosok);
-				//L.polyline(csoport).addTo(csoport)
-				//	.bindPopup("távolság: "+d.toFixed(0)+" m")
-				//	.openPopup();
 
                 //rakozelites a vonalra    
                 // map.fitBounds(csoport.getBounds());
@@ -154,22 +152,22 @@
                 // find me : map.locate({setView: true, maxZoom: 16});
                             //https://leafletjs.com/examples/mobile/
 
-                            // metdata fom zip file
-                            var zip = new JSZip();
-                                fetch('./Webkarto/HABP_10M_13704_now.zip')
-                                    .then(r=>r.arrayBuffer())
-                                        .then(d=>zip.loadAsync(d))
-                                            .then(z=>z.file(/./)[0].async("text"))
-                                                .then(d=>{
-                                                    let sorok=d.split('\n');
-                                                    for (let i=7;i<sorok.length;i++) {
-                                                        let adatok=sorok[i].split(';');
-                                                        for (let j in adatok) {
-                                                            adatok[j]=adatok[j].trim();
-                                                        }
-                                                        // console.log(adatok.join(','));
-                                                    }
-                                                });                                                   
+                // metdata fom zip file
+                var zip = new JSZip();
+                    fetch('./Webkarto/HABP_10M_13704_now.zip')
+                        .then(r=>r.arrayBuffer())
+                            .then(d=>zip.loadAsync(d))
+                                .then(z=>z.file(/./)[0].async("text"))
+                                    .then(d=>{
+                                        let sorok=d.split('\n');
+                                        for (let i=7;i<sorok.length;i++) {
+                                            let adatok=sorok[i].split(';');
+                                            for (let j in adatok) {
+                                                adatok[j]=adatok[j].trim();
+                                            }
+                                            // console.log(adatok.join(','));
+                                        }
+                                    });                                                   
             </script>  
         </div>      
     </div>   
