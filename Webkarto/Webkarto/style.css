@@ -145,7 +145,8 @@
 .graph #myPlot {
   padding-top: 1vw;
   width: 100%;
-  max-width: 700px;
+  height: calc(80vh - 80px);
+  position: relative;
 }
 
 /****************************footer***********************/
