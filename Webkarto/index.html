@@ -52,7 +52,7 @@
                      varosok=L.layerGroup().addTo(map),
                      stations=L.layerGroup().addTo(map),
                      pontok=[],
-                     dolgok=L.geoJSON().addTo(map);
+                     dolgok=L.layerGroup().addTo(map);
 
                 var stationsGeoJSON = {
                         "type": "FeatureCollection",
@@ -127,7 +127,9 @@
                                         .bindPopup("Távolság: "+(dmin/1000).toFixed(2)+" km")
                                         .openPopup();
                                                 });
-                        map.fitBounds(dolgok.getBounds());                                   
+                        map.fitBounds(eredmeny.getBounds(), {
+                             padding: [50, 50]
+                                });                                   
                                             });        
                 //clear text        
                 document.getElementById("hely").value="";
