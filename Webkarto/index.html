@@ -182,34 +182,36 @@
                          });			        
 
                 // find me : map.locate({setView: true, maxZoom: 16});
-                //https://leafletjs.com/examples/mobile/
-
-                // metdata fom zip file
-                var zip = new JSZip();
-                    fetch('./Webkarto/HABP_10M_13704_now.zip')
-                        .then(r=>r.arrayBuffer())
-                            .then(d=>zip.loadAsync(d))
-                                .then(z=>z.file(/./)[0].async("text"))
-                                    .then(d=>{
-                                        let sorok=d.split('\n');
-                                        for (let i=7;i<sorok.length;i++) {
-                                            let adatok=sorok[i].split(';');
-                                            for (let j in adatok) {
-                                                adatok[j]=adatok[j].trim();
-                                            }
-                                            //console.log(adatok.join(','));
-                                        }
-                                    });
-                console.log(adatok.join(','));                                                               
-            </script>  
+                //https://leafletjs.com/examples/mobile/                                                             
+            </script>      
         </div>
+    <!--Grafikon megjelenítése-->
         <div id = "graph">
-            <form class="btn_keres2">
-                <input type="text" placeholder="Code" name="search1" id="code" />
-                <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
+            <form class="btn_keres">
+                <input type="text" placeholder="13704" name="search1" id="code" /> <!--StationNumber...-->
+                <button type="button" id="Btn" onclick="statkeres()"><i class="fa fa-search"></i></button>
             </form>
             <p> (13704) Meteorológiai állomás grafikus megjelenítése: </p>
+            <div id="myPlot" style="width:100%;max-width:700px">
                <script>
+                    // metdata fom zip file
+                    var zip = new JSZip();
+                        fetch('./Webkarto/HABP_10M_13704_now.zip')
+                            .then(r=>r.arrayBuffer())
+                                .then(d=>zip.loadAsync(d))
+                                    .then(z=>z.file(/./)[0].async("text"))
+                                        .then(d=>{
+                                            let sorok=d.split('\n');
+                                            for (let i=7;i<sorok.length;i++) {
+                                                let adatok=sorok[i].split(';');
+                                                for (let j in adatok) {
+                                                    adatok[j]=adatok[j].trim();
+                                                }
+                                                //console.log(adatok.join(','));
+                                            }
+                                        });
+                    console.log(adatok.join(','));  
+
                     var xArray = [50,60,70,80,90,100,110,120,130,140,150];
                     var yArray = [7,8,8,9,9,9,10,11,14,14,15];
 
@@ -229,8 +231,8 @@
                     };
 
                     Plotly.newPlot("myPlot", data, layout);
-                    
                </script> 
+            </div>
         </div>
     </div>   
     <div class="footer">

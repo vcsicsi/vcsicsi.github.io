@@ -125,6 +125,10 @@
     height: calc(80vh - 80px);
 }
 
+.graph {
+    height: calc(80vh - 80px);
+}
+
 .footer {
     position: absolute;
     width: 100%;
