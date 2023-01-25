@@ -141,7 +141,7 @@
   color: rgb(22, 22, 22);
 }
 
-.myPlot {
+.graph #myPlot {
   padding-top: 20vw;
   position: absolute;
   justify-content: center;
