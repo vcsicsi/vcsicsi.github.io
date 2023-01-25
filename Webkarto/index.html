@@ -71,7 +71,7 @@
                         var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
                             eredmeny.on('click',e=>{
                                     let hely=e.latlng;
-                                    pontok.push(e.latlng);
+                                    pontok[0] = e.latlng;
                                     let dmin=21000000; // ennél semmi sem lehet messzebb a földön
                                     let pont;
                                     stations.eachLayer(l=>{
@@ -81,7 +81,7 @@
                                             pont=l.getLayers()[0];
                                         }                               
                                     })
-                                    pontok.push(pont.getLatLng());
+                                    pontok[1]= pont.getLatLng();
                                     pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup().addTo(dolgok);         
                                 //vonal rajzolasa a 2 koze
                                     console.log(pontok);
@@ -119,7 +119,8 @@
                 //         });				
 
                 //clear text        
-                document.getElementById("hely").value="";                                   
+                document.getElementById("hely").value="";
+                map.fitBounds(dolgok.layer.getBounds());                                  
                 };
                 
                 //x-el kitörlöm a layereket
