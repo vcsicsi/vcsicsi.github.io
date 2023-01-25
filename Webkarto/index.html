@@ -211,20 +211,19 @@
                                                 for (let j in adatok) {
                                                     adatok[j]=adatok[j].trim();
                                                 }
-                                            var data = [{  
-                                                x: datum.push(adatok[1]),
-                                                y: akthom.push(Number(adatok[4])),
-                                                mode:"lines",
-                                                type:"scatter"
-                                            }]  ;
+                                                datum[i]=(adatok[1]);
+                                                akthom[i]=(Number(adatok[4]));
                                             }
                                         });
                     console.log(datum);                    
                     // Define Data
-                 
-                    
+                    var data = [{
+                        x: datum,
+                        y: akthom,
+                        mode:"lines",
+                        type:"scatter"
+                    }];                 
                     console.log(data);
-
                     // Define Layout
                     var layout = {
                     xaxis: {title: "Time 10min"},
