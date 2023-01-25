@@ -72,7 +72,7 @@
                             eredmeny.on('click',e=>{
                                     let hely=e.latlng;
                                     pontok.push(e.latlng);
-                                    console.log(pontok);
+                                    console.log(hely);
                                     let dmin=21000000; // ennél semmi sem lehet messzebb a földön
                                     let pont;
                                     stations.eachLayer(l=>{
@@ -80,12 +80,13 @@
                                         if (d<dmin) {
                                             dmin=d;
                                             pont=l.getLayers()[0];
+                                            console.log(pont);
                                             pontok.push(l.getLayers()[0]);
                                         }                               
                                     })
                                     pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup();
                                     //rakozelites a vonalra    
-                                    //map.fitBounds(pont.getBounds()));         
+                                    map.fitBounds(pont.getBounds());         
                                     //vonal rajzolasa a 2 koze
                                     console.log(pontok);
                                     L.polyline(pontok).addTo(map)
