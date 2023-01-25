@@ -15,6 +15,8 @@
   }
 }
 
+/***************menu**********************/
+
 /* unvisited link */
 .menu a:link, 
 .footer a:link {
@@ -43,7 +45,7 @@
 .fa-cloud{
   color: rgb(128, 197, 236);
 }
-/************************************************** button********************************************/
+/*************************** button********************************************/
 * {
   box-sizing: border-box;
 }
@@ -125,13 +127,14 @@
     height: calc(80vh - 80px);
 }
 
+/**********************grafikon***********************/
 .graph {
     position: relative;
     text-align:center;
     justify-content: center;
     width: 100%;
     height: calc(80vh - 80px);
-    padding-top: 3vw;
+    padding-top: 10vw;
 }
 .graph p {
   font-size: 2vw;
@@ -139,7 +142,7 @@
 }
 
 .myPlot {
-  padding-top: 3vw;
+  padding-top: 20vw;
   position: absolute;
   justify-content: center;
   align-items: center;
@@ -147,6 +150,7 @@
   max-width: 700px;
 }
 
+/****************************footer***********************/
 .footer {
     position: absolute;
     width: 100%;
