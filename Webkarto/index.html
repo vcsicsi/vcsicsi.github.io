@@ -82,18 +82,16 @@
                                         }                               
                                     })
                                     pontok[1]= pont.getLatLng();
-                                    pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup().addTo(dolgok);         
+                                    pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup();         
                                 //vonal rajzolasa a 2 koze
                                     console.log(pontok);
                                     L.polyline(pontok).addTo(dolgok)
                                         .bindPopup("Távolság: "+(dmin/1000).toFixed(2)+" km")
                                         .openPopup();
-                                                })            
+                                                });
+                        map.fitBounds(eredmeny.getBounds());                                   
                                             });        
-                
-                //rakozelites a vonalra    
-                //map.fitBounds(dolgok.getBounds());
-                
+    
                 //by click              
                 //map.on('click', function(e) {
                 //     //marker
@@ -120,7 +118,6 @@
 
                 //clear text        
                 document.getElementById("hely").value="";
-                map.fitBounds(dolgok.layer.getBounds());                                  
                 };
                 
                 //x-el kitörlöm a layereket
