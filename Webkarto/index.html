@@ -219,15 +219,15 @@
                     var data = [{
                     x: xArray,
                     y: yArray,
-                    mode:"markers",
+                    mode:"lines",
                     type:"scatter"
                     }];
 
                     // Define Layout
                     var layout = {
-                    xaxis: {range: [40, 160], title: "Square Meters"},
-                    yaxis: {range: [5, 16], title: "Price in Millions"},
-                    title: "House Prices vs. Size"
+                    xaxis: {range: [40, 160], title: "Time 10min"},
+                    yaxis: {range: [5, 16], title: "Temperature in °C"},
+                    title: "Meteogram"
                     };
 
                     Plotly.newPlot("myPlot", data, layout);
