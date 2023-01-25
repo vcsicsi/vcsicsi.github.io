@@ -127,6 +127,7 @@
 
 .graph {
     height: calc(80vh - 80px);
+    padding: 1vw;
 }
 
 .footer {
