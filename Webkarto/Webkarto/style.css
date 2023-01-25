@@ -139,6 +139,7 @@
 .graph p {
   font-size: 2vw;
   color: rgb(22, 22, 22);
+  padding-bottom: 10vw;
 }
 
 .graph #myPlot {
