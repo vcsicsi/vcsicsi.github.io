@@ -212,12 +212,12 @@
                                                     datum.push(adatok[1]);
                                                     akthom.push(adatok[6]);
                                                 }
-                                                //console.log(adatok.join(','));
+                                                console.log(adatok);
                                             }
                                         });
-                    var pattern = /(\d{4})\(\d{2})\(\d{2})\(\d{2})\(\d{2})/;                    
-                    var ido= new Date(datum.split(pattern));
-                    console.log(ido);                    
+                    var ido= new Date(datum.split(/(\d{4})\(\d{2})\(\d{2})\(\d{2})\(\d{2})/));
+                    console.log(ido);
+
                     // Define Data
                     var data = [{
                     x: datum,
