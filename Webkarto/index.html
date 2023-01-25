@@ -209,8 +209,8 @@
                                                 let adatok=sorok[i].split(';');
                                                 for (let j in adatok) {
                                                     adatok[j]=adatok[j].trim();
-                                                    datum.push(adatok[1]);
-                                                    akthom.push(adatok[6]);
+                                                    datum.push(Number(adatok[1]));
+                                                    akthom.push(Number(adatok[6]));
                                                 }
                                                 //console.log(adatok.join(','));
                                             }
