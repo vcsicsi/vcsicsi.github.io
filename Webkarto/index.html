@@ -156,32 +156,34 @@
                         +layer.feature.properties.display_name;
                 }; 
                
-                //by click              
+                //------------------search by click -------------------------------------            
+                var n=0;
                 map.on('click', function(e) {
                      //marker
-                        helyid = e.latlng;
+                        n++;
+                        let helyid = e.latlng;
                         L.marker(e.latlng).addTo(dolgok)
-                             .bindPopup()
+                             .bindPopup(n+'.pont')
                              .openPopup();
-                         pontok[0]=e.latlng;
+                        pontok[0]=e.latlng;
                         let dmin=21000000; // ennél semmi sem lehet messzebb a földön
                         let pont;
                     stations.eachLayer(l=>{
-                    let d=helyid.distanceTo(l.getLayers()[0].getLatLng());
+                        let d=helyid.distanceTo(l.getLayers()[0].getLatLng());
                                         if (d<dmin) {
                                             dmin=d;
                                             pont=l.getLayers()[0];
-                                            pontok[1]=pont;
                                         }
-                                    })				
-                    var d=map.distance(pontok);
-                         L.polyline(pontok).addTo(dolgok)
-                             .bindPopup("távolság: "+d.toFixed(0)+" m")
+                                    })
+                    pontok[1]=pont.getLatLng();
+                    console.log(pontok);                				
+                    L.polyline(pontok).addTo(dolgok)
+                             .bindPopup("Távolság: "+(dmin/1000).toFixed(2)+" km")
                              .openPopup();				
                          });			        
 
                 // find me : map.locate({setView: true, maxZoom: 16});
-                            //https://leafletjs.com/examples/mobile/
+                //https://leafletjs.com/examples/mobile/
 
                 // metdata fom zip file
                 var zip = new JSZip();
