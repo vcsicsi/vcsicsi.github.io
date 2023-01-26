@@ -94,9 +94,9 @@
  height: 10vw;
  background-color:rgb(58, 58, 58);
  color: rgb(124, 124, 124);
- align-items:center;
- align-content: center;
  padding: 1vw;
+ padding-left: 4vw;
+ padding-right: 4vw;
  }
 
  .menu-flex {
@@ -134,6 +134,8 @@
     width: 100%;
     height: calc(80vh - 80px);
     padding-top: 3vw;
+    padding-left: 4vw;
+    padding-right: 4vw;
 }
 .graph p {
   font-size: 3vw;
