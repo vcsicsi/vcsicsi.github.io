@@ -116,7 +116,7 @@
 /**********************************terkep********************************************************************/
 .content_p {
     position: relative;
-    height: 250vw;
+    height: calc(200vh - 200px);
     background-color: rgb(94, 153, 177);
     color: rgb(0, 0, 0);
 }
@@ -131,7 +131,6 @@
 .graph {
     position: relative;
     text-align:center;
-    justify-content: center;
     width: 100%;
     height: calc(80vh - 80px);
     padding-top: 3vw;
