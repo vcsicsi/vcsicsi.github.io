@@ -232,7 +232,9 @@
                     title: "13704 Meteogram"
                     };
 
-                    Plotly.newPlot("myPlot", data, layout);
+                    var config = {responsive: true}
+
+                    Plotly.newPlot("myPlot", data, layout, config);
 
                </script> 
             </div>
