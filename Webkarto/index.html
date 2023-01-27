@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name = 'Author' content="Vincze Csilla">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title> Meteorológiai Adattár </title>  
+    <title> Meteorológiai Adattár </title> 
+    <!--Leaftlet style--> 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>    
@@ -13,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
     <!--JSZIP-->
     <script src="Webkarto/jszip.js"></script>
-    <!--ploty-->
+    <!--ploty.js-->
     <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
     <!--Webstyle-->
     <link rel="stylesheet" href="Webkarto/style.css">
@@ -23,6 +24,7 @@
     <link href="Webkarto/favicon.ico" rel="icon" type="image/x-icon" />
 </head>  
 <body>
+    <!--------------------Menu--------------------->
     <div class="menu">
      <div class="menu-flex"> 
         <div class = "title">
@@ -45,10 +47,10 @@
      </div> 
     </div>
     <div class="content_p"> 
-        <!-- Térkép megjelenítése -->                    
+        <!------Map------>                    
             <div id="map">    
             </div>
-        <!--Grafikon megjelenítése-->
+        <!-------Graph------>
         <div class = "graph">
         <p> Meteorológiai állomás grafikus megjelenítése: </p>
             <form class="btn_keres">
@@ -58,7 +60,8 @@
             <div id="myPlot">  
             </div>
         </div>
-    </div>   
+    </div>
+    <!--------Footer--------->   
     <div class="footer">
             <hr>
     <div class="break"></div>
