@@ -46,146 +46,8 @@
     </div>
     <div class="content_p"> 
         <!-- Térkép megjelenítése -->                    
-        <div id="map">
-            <script>
-                var  map = L.map('map').setView([47.475,19.062], 7),
-                     varosok=L.layerGroup().addTo(map),
-                     stations=L.layerGroup().addTo(map),
-                     pontok=[],
-                     dolgok=L.layerGroup().addTo(map);
-
-                var stationsGeoJSON = {
-                        "type": "FeatureCollection",
-                        "features": [ ]};
-
-                var stationIcon = L.icon ({
-                        iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-                        iconSize:     [28, 45],
-                        iconAnchor: [14, 44],
-                        popupAnchor: [0, 0],});     
-     
-                //map              
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            minZoom: 7,
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        }).addTo(map);
-                        map.attributionControl.setPrefix(
-                        'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
-                                    );  
-
-                //met.hu állomások rétegcsoport
-                //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
-                $.get('./Webkarto/data.csv', function(csv) {
-                var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
-                            skipEmptyLines: true, dynamicTyping: true, 
-                            transformHeader:function(h) {
-                            return h.trim()},
-                            complete: function(results) {
-                                results.data.forEach((row) => {
-                                feature = {"type": "Feature",
-                                            "geometry": {
-                                            "type": "Point",
-                                            "coordinates": [row.Longitude, row.Latitude] },
-                                            "properties": {
-                                            "Location": row.StationName }}
-                                stations_layer = L.geoJSON(feature, {
-                                                pointToLayer: function (feature, latlng) {
-                                                            return L.marker(latlng, {icon: stationIcon});
-                                                    }}).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName).addTo(stations)
-                                stationsGeoJSON.features.push(feature)
-                                 })    
-                               }
-                            });
-                        });       
-                
-            // --------------FUNKCIÓK: ------------------------   
-                function kereses() {                   
-                // megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
-                var h=document.getElementById("hely").value;
-                var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
-                    fetch(url).then(r=>r.json()).then(data=>{
-                        var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
-                            eredmeny.on('click',e=>{
-                                    let hely=e.latlng;
-                                    pontok[0] = e.latlng;
-                                    let dmin=21000000; // ennél semmi sem lehet messzebb a földön
-                                    let pont;
-                                    stations.eachLayer(l=>{
-                                        let d=hely.distanceTo(l.getLayers()[0].getLatLng());
-                                        if (d<dmin) {
-                                            dmin=d;
-                                            pont=l.getLayers()[0];
-                                        }                               
-                                    })
-                                    pontok[1]= pont.getLatLng();
-                                    console.log(pontok);
-                                    //pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup();         
-                                    //vonal rajzolasa a 2 koze
-                                    L.polyline(pontok).addTo(dolgok)
-                                        .bindPopup("Távolság: "+(dmin/1000).toFixed(2)+" km")
-                                        .openPopup();
-                                                });
-                        map.fitBounds(eredmeny.getBounds(), {
-                             padding: [50, 50]
-                                });                                   
-                                            });        
-                //clear text        
-                document.getElementById("hely").value="";
-                };
-                
-                //x-el kitörlöm a layereket
-                function clearmap() {                   
-                    varosok.clearLayers();
-                    dolgok.clearLayers();
-                };
-
-                //Press Enter hely kereses    
-                var input = document.getElementById("hely");
-                input.addEventListener("keypress", function(event) {
-                    if (event.key === "Enter") {
-                        event.preventDefault();
-                        document.getElementById("Btn").click();
-                        event.currentTarget.value = "";
-                    }
-                });
-
-                //tooltip a geokódoláshoz        
-                function tooltipszöveg (layer){
-                var prop = layer.feature.properties;
-                return (prop.icon?('<img src="'+prop.icon+'">'):'')
-                        +layer.feature.properties.display_name;
-                }; 
-               
-                //------------------search by click -------------------------------------            
-                var n=0;
-                map.on('click', function(e) {
-                     //marker
-                        n++;
-                        let helyid = e.latlng;
-                        L.marker(e.latlng).addTo(dolgok)
-                             .bindPopup(n+'.pont')
-                             .openPopup();
-                        pontok[0]=e.latlng;
-                        let dmin=21000000; // ennél semmi sem lehet messzebb a földön
-                        let pont;
-                    stations.eachLayer(l=>{
-                        let d=helyid.distanceTo(l.getLayers()[0].getLatLng());
-                                        if (d<dmin) {
-                                            dmin=d;
-                                            pont=l.getLayers()[0];
-                                        }
-                                    })
-                    pontok[1]=pont.getLatLng();
-                    console.log(pontok);                				
-                    L.polyline(pontok).addTo(dolgok)
-                             .bindPopup("Távolság: "+(dmin/1000).toFixed(2)+" km")
-                             .openPopup();				
-                         });			        
-
-                // find me : map.locate({setView: true, maxZoom: 16});
-                //https://leafletjs.com/examples/mobile/                                                             
-            </script>      
-        </div>
+            <div id="map">    
+            </div>
         <!--Grafikon megjelenítése-->
         <div class = "graph">
         <p> Meteorológiai állomás grafikus megjelenítése: </p>
@@ -193,51 +55,7 @@
                 <input type="text" placeholder="13704" name="search1" id="code" /> <!--StationNumber...-->
                 <button type="button" id="Btn1" onclick="statkeres()"><i class="fa fa-search"></i></button>
             </form>
-            <div id="myPlot">
-               <script>
-                    // metdata fom zip file
-                    var zip = new JSZip();
-                    const datum=[];
-                    const akthom=[];
-                        
-                    fetch('./Webkarto/HABP_10M_13704_now.zip')
-                            .then(r=>r.arrayBuffer())
-                                .then(d=>zip.loadAsync(d))
-                                    .then(z=>z.file(/./)[0].async("text"))
-                                        .then(d=>{
-                                            let sorok=d.split('\n');
-                                            for (let i=7;i<sorok.length;i++) {
-                                                let adatok=sorok[i].split(';');
-                                                for (let j in adatok) {
-                                                    adatok[j]=adatok[j].trim();
-                                                }
-                                                //console.log(adatok.join(","))
-                                                datum.push(adatok[1]);
-                                                akthom.push(Number(adatok[4]));
-                                            }
-                                        });
-                    console.log(datum);                    
-                    // Define Data
-                    var data = [{
-                        x: datum,
-                        y: akthom,
-                        mode:"lines",
-                        type:"scatter"
-                    }];                 
-                    console.log(data);
-                    // Define Layout
-                    var layout = {
-                    xaxis: {title: "Time 10min"},
-                    yaxis: {title: "Temperature in °C"},
-                    title: "13704 Meteogram",
-                    automargin: true,
-                    };
-
-                    var config = {responsive: true}
-
-                    Plotly.newPlot("myPlot", data, layout, config);
-
-               </script> 
+            <div id="myPlot">  
             </div>
         </div>
     </div>   
@@ -260,6 +78,7 @@
                 <a href="https://met.hu/">  Országos Meteorológiai Szolgálat </a>
             </div>       
         </div>      
-    </div>   
+    </div>
+    <script src="script.js"></script>    
 </body>
 </html>  
