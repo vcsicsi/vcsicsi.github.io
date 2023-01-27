@@ -42,8 +42,8 @@ var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", de
                 stations_layer = L.geoJSON(feature, {
                                 pointToLayer: function (feature, latlng) {
                                             return L.marker(latlng, {icon: stationIcon});
-                                    }}).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName).addTo(stations);
-                                    tooltip.push(row.StationNumber+","+row.StationName);
+                                    }}).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName + "," + row.Elevation + " m").addTo(stations);
+                                    tooltip.push(row.StationNumber+","+row.StationName+""+row.Elevation+" m");
                 stationsGeoJSON.features.push(feature)
                 })    
             }
@@ -196,7 +196,7 @@ function statkeres() {
                             // Define Layout
                             var layout = {
                             hovermode:'closest',    
-                            xaxis: {title: "Time 10min"},
+                            xaxis: {title: "Time UTC 10min"},
                             yaxis: {title: "Temperature in °C"},
                             height: 500,
                             title: name,
