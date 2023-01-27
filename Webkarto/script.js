@@ -140,13 +140,6 @@ function statkeres() {};
 var zip = new JSZip();
 const datum=[];
 const akthom=[];
-$.ajax({
-    url: 'get.php',
-    success: function(data) {
-      $('.result').html(data);
-    }
-  });
-
 let url='?url=https://odp.met.hu/climate/observations_hungary/10_minutes/now/HABP_10M_23703_now.zip';    
 fetch(url/*'./Webkarto/HABP_10M_13704_now.zip'*/)
         .then(r=>r.arrayBuffer())
