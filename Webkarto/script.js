@@ -25,7 +25,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 //stations layergroup
 //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
-$.get('./Webkarto/data.csv', function(csv) {
+$.get('./data.csv', function(csv) {
 var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
             skipEmptyLines: true, dynamicTyping: true, 
             transformHeader:function(h) {
@@ -135,12 +135,12 @@ map.on('click', function(e) {
 //https://leafletjs.com/examples/mobile/                                                             
 
 //----------------------------------------------Graph --------------------------------------------------------------   
-function statkeres() {};
+//function statkeres() {};
 // metdata fom zip file
 var zip = new JSZip();
 const datum=[];
 const akthom=[];
-let url='?url=https://odp.met.hu/climate/observations_hungary/10_minutes/now/HABP_10M_23703_now.zip';    
+let url= 'http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/10_minutes/now/HABP_10M_23703_now.zip';    
 fetch(url/*'./Webkarto/HABP_10M_13704_now.zip'*/)
         .then(r=>r.arrayBuffer())
             .then(d=>zip.loadAsync(d))
