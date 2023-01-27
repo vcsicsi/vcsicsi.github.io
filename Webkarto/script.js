@@ -202,7 +202,7 @@ function statkeres() {
                             title: name,
                             automargin: true,
                             annotations: [{
-                                text: akthom[akthom.length-1] + ' °C',
+                                text: 'Aktuális: '+akthom[akthom.length-1] + ' °C',
                                   font: {
                                   size: 15,
                                   color: 'rgb(116, 101, 130)',
