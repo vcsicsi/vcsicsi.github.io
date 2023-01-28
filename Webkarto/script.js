@@ -210,7 +210,7 @@ function statkeres() {
                                 showarrow: false,
                                 align: 'left',
                                 x: 1,
-                                y: 1,
+                                y: 1.05,
                                 xref: 'paper',
                                 yref: 'paper',
                               }]
