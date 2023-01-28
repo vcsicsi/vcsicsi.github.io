@@ -58,7 +58,7 @@
   font-size: 1.5vw;
   border: 1px solid grey;
   float: left;
-  width: 40%;
+  width: 80%;
   background: #f1f1f1;
 }
 
@@ -91,9 +91,47 @@
   margin-left: auto;
 }
 
-.btn_keres select {
+/*------------------------------btn_keres1----------------------------------------*/
+.btn_keres1 select {
   width: 40%;
   overflow: hidden;
+}
+
+.btn_keres1 button{
+  float: left;
+  width: 20%;
+  padding: 5px;
+  background: #2196F3;
+  color: white;
+  font-size: 1.5vw;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+.btn_keres1 input[type=text] {
+  padding: 5px;
+  font-size: 1.5vw;
+  border: 1px solid grey;
+  float: left;
+  width: 40%;
+  background: #f1f1f1;
+}
+
+.btn_keres1 button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+.btn_keres1::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn_keres1 {
+  display: flex;
+  margin-left: auto;
 }
 
 /***********************************************************************************************************************************/
@@ -134,7 +172,7 @@
     height: calc(80vh - 80px);
 }
 
-/**********************grafikon***********************/
+/**********************graph***********************/
 .graph {
     position: relative;
     text-align:center;
