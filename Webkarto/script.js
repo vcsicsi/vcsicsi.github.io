@@ -196,15 +196,35 @@ function statkeres() {
                             // Define Layout
                             var layout = {
                             hovermode:'closest',    
-                            xaxis: {title: "Time UTC 10min"},
-                            yaxis: {title: "Temperature in °C"},
+                            xaxis: {title: 
+                                {text: "Time UTC 10min", 
+                                font: { 
+                                    family: 'Courier New, monospace',
+                                    size: 12 
+                                    }
+                                },
+                            },  
+                            yaxis: {
+                                title: {
+                                    text: "Temperature in °C", 
+                                    font: {
+                                        family: 'Courier New, monospace',
+                                        size: 12
+                                    }
+                                },
+                            },
                             height: 500,
-                            title: name,
+                            title:  {
+                                text: name, 
+                                font: {
+                                    family: 'Courier New, monospace',
+                                    size: 14}
+                                },
                             automargin: true,
                             annotations: [{
                                 text: 'Aktuális: '+akthom[akthom.length-1] + ' °C',
                                   font: {
-                                  size: 15,
+                                  size: 12,
                                   color: 'rgb(116, 101, 130)',
                                 },
                                 showarrow: false,
