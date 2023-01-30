@@ -199,7 +199,6 @@ function statkeres() {
                             xaxis: {title: 
                                 {text: "Time UTC 10min", 
                                 font: { 
-                                    family: 'Courier New, monospace',
                                     size: 12 
                                     }
                                 },
@@ -208,7 +207,6 @@ function statkeres() {
                                 title: {
                                     text: "Temperature in °C", 
                                     font: {
-                                        family: 'Courier New, monospace',
                                         size: 12
                                     }
                                 },
@@ -217,7 +215,6 @@ function statkeres() {
                             title:  {
                                 text: name, 
                                 font: {
-                                    family: 'Courier New, monospace',
                                     size: 14}
                                 },
                             automargin: true,

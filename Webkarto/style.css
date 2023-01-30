@@ -150,7 +150,7 @@ body {
 .graph #myPlot {
   padding-top: 1vw;
   width: 100%;
-  height: calc(120vh - 120px);
+  height: calc(80vh - 80px);
   position: relative;
 }
 
