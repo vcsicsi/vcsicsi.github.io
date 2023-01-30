@@ -45,7 +45,7 @@ body {
 
 /*****************************   MENU  **********************************/
 .menu{
-  height: 8vw;
+  height: 10vw;
   padding: 3vw;}
 .menu .title {
   align-items: center;
@@ -110,7 +110,7 @@ body {
 /********************************** Content p ********************************************************************/
 .content_p {
     position: relative;
-    height: calc(320vh - 320px);
+    height: 1820px;
     color: rgb(114, 114, 114);
     padding: 3vw;
     text-align: justify;
@@ -121,7 +121,7 @@ body {
 .content_p #map { 
     position: relative;
     width: 100%;
-    height: calc(80vh - 80px);
+    height: 350px;
 }
 
 .content_p a:link {
@@ -138,19 +138,18 @@ body {
 .graph {
     position: relative;
     width: 100%;
-   /* height: calc(180vh - 180px);*/
     padding-top: 2vw;
 }
 
 .flex-title {
   padding-top: 2vw;
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-align:left;
 }
 .graph #myPlot {
   padding-top: 1vw;
   width: 100%;
-  /*height: calc(80vh - 80px);*/
+  height: 80px;
   position: relative;
 }
 
@@ -194,7 +193,7 @@ body {
 /****************************footer***********************/
 .footer {
     position:relative;
-    height: 8vw;
+    height: 22px;
     text-align:center;
     display: flex;
     justify-content: center;
