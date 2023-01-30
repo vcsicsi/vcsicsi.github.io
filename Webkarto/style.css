@@ -1,73 +1,93 @@
-*{
-    margin: 0;
+*{  margin: 0;
     padding: 0;
 }
-
-
-
-@media screen and (max-width: 800px) {
-  .left, .main, .right {
-    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
+* { box-sizing: border-box;
 }
-
-@media only screen and (max-width:480px) { 
-  .bt {
-    width: 100%;
-  }
-}
-
-/***************menu**********************/
-
-/* unvisited link */
-.menu a:link, 
-.footer a:link {
-    color: rgb(129, 182, 212);
-  }
-/* visited link */
-.menu a:visited, 
-.footer a:visited {
-    color: rgb(172, 170, 170);
-  }
-
-/* mouse over link */
-.menu  a:hover,
-.menu  p:hover, 
-.footer a:hover {
-    color: rgb(105, 245, 255);
-  }  
-.menu p {
-    color: rgb(172, 170, 170);
-    
-}
-.menu a {
-  font-size: 3vw;
-}
-
+/* cloud */
 .fa-cloud{
-  color: rgb(128, 197, 236);
-}
-/*************************** button********************************************/
-* {
-  box-sizing: border-box;
+  color:rgb(104, 186, 238);
 }
 
-/* Style the search field */
+hr { 
+  width: 100%;
+  margin-top: 3vw;
+ }
+
+/***************************** BODY ************************************/
+@media screen and (min-width: 1025px){
+  .menu, .content_p, .footer {
+  width: 75%;
+  margin: auto;
+  text-align: center;
+  }}
+
+/* The width is 100%, when the viewport is 480px or smaller */
+@media only screen and (max-width:480px) { 
+  body {
+    width: 100%;}}
+
+body {
+  background-color: white;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  }
+.flex {
+  padding-top: 1vw;
+  display: flex;
+  align-items:center;
+  position: relative;
+}
+.flex .search {
+  flex-direction: row;
+  display: flex;
+  margin-left: auto;
+  align-items: center;}
+
+/*****************************   MENU  **********************************/
+.menu{
+  height: 8vw;
+  padding: 3vw;}
+.menu .title {
+  align-items: center;
+  justify-content: center;
+  text-align: center;}  
+/* unvisited link */
+.menu a:link {
+  color: rgb(124, 179, 210);
+  text-decoration: none;}
+/* visited link */
+.menu a:visited {
+  color: rgb(98, 98, 98);} 
+/* mouse over link */
+.menu a:hover,
+.menu p:hover {
+  color: rgb(104, 186, 238);}   
+.menu p {
+    color: rgb(109, 109, 109);}
+.menu a {
+  font-size: 3vw}
+
+/*************************** button********************************************/
+.btn_keres {
+  display: flex;
+  margin-left: auto;
+  width: 60%;
+  padding-bottom: 2vh;
+}
+
 .btn_keres input[type=text] {
   padding: 5px;
-  font-size: 1.5vw;
+  font-size: 1vw;
   border: 1px solid grey;
   float: left;
   width: 80%;
-  background: #f1f1f1;
+  background: #ffffff;
 }
 
 /* Style the submit button */
 .btn_keres button {
   float: left;
   width: 20%;
-  padding: 5px;
-  background: #2196F3;
+  background: rgb(104, 186, 238);
   color: white;
   font-size: 1.5vw;
   border: 1px solid grey;
@@ -86,84 +106,15 @@
   display: table;
 }
 
-.btn_keres {
-  display: flex;
-  margin-left: auto;
-}
-
-/*------------------------------btn_keres1----------------------------------------*/
-.btn_keres1 select {
-  width: 40%;
-  overflow: hidden;
-}
-
-.btn_keres1 button{
-  float: left;
-  width: 20%;
-  padding: 5px;
-  background: #2196F3;
-  color: white;
-  font-size: 1.5vw;
-  border: 1px solid grey;
-  border-left: none; /* Prevent double borders */
-  cursor: pointer;
-}
-
-.btn_keres1 input[type=text] {
-  padding: 5px;
-  font-size: 1.5vw;
-  border: 1px solid grey;
-  float: left;
-  width: 40%;
-  background: #f1f1f1;
-}
-
-.btn_keres1 button:hover {
-  background: #0b7dda;
-}
-
-/* Clear floats */
-.btn_keres1::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.btn_keres1 {
-  display: flex;
-  margin-left: auto;
-}
-
-/***********************************************************************************************************************************/
-.menu{
- height: 10vw;
- background-color:rgb(58, 58, 58);
- color: rgb(124, 124, 124);
- padding: 1vw;
- padding-left: 4vw;
- padding-right: 4vw;
- }
-
- .menu-flex {
-  display: flex;
-  align-items:center;
-  align-content: center;
- }
-
- .menu .menu-flex .search {
-  flex-direction: row;
-  display: flex;
-  margin-left: auto;
-  align-items: center;
-  gap: 0.5vw;
- }
-
-/**********************************terkep********************************************************************/
+/********************************** Content p ********************************************************************/
 .content_p {
     position: relative;
-    height: calc(200vh - 200px);
-    background-color: rgb(94, 153, 177);
-    color: rgb(0, 0, 0);
+    height: calc(250vh - 250px);
+    color: rgb(114, 114, 114);
+    padding: 3vw;
+    text-align: justify;
+    padding-top: 2vw;
+    line-height: 2em;
 }
 
 .content_p #map { 
@@ -172,22 +123,28 @@
     height: calc(80vh - 80px);
 }
 
-/**********************graph***********************/
+.content_p a:link {
+  color: rgb(124, 179, 210);
+  text-decoration: none;}
+/* visited link */
+.content_p a:visited {
+  color: rgb(98, 98, 98);} 
+/* mouse over link */
+.content_p a:hover{
+  color: rgb(104, 186, 238);}   
+
+/********************** graph  and button  ***********************/
 .graph {
     position: relative;
-    text-align:center;
     width: 100%;
     height: calc(80vh - 80px);
-    padding-top: 3vw;
-    padding-left: 4vw;
-    padding-right: 4vw;
-}
-.graph p {
-  font-size: 3vw;
-  color: rgb(6, 38, 83);
-  padding-bottom: 1vw;
+    padding-top: 2vw;
 }
 
+.flex-title {
+  font-size: 3vh;
+  text-align:left;
+}
 .graph #myPlot {
   padding-top: 1vw;
   width: 100%;
@@ -195,21 +152,56 @@
   position: relative;
 }
 
+/* button for graph*/
+.btn_keres1 {
+  width: 60%;}
+.btn_keres1 select {
+  width: 30%;
+  overflow: hidden;}
+
+.btn_keres1 button{
+  float: left;
+  width: 20%;
+  background: rgb(104, 186, 238);
+  color: white;
+  font-size: 2vh;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+.btn_keres1 input[type=text] {
+  padding: 5px;
+  font-size: 2vh;
+  border: 1px solid rgb(116, 115, 115);
+  float: left;
+  width: 60%;
+  background: rgb(255, 255, 255);}
+
+.btn_keres1 button:hover {
+  background: #0b7dda;}
+/* Clear floats */
+.btn_keres1::after {
+  content: "";
+  clear: both;
+  display: table;}
+.btn_keres1 {
+  display: flex;
+  margin-left: auto;}
+
 /****************************footer***********************/
 .footer {
     position: relative;
-    width: 100%;
-    height: 22vw;
+    height: 12vw;
     text-align:center;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color:rgb(58, 58, 58);
-    color: rgb(124, 124, 124);
+    color: black;
     gap: 0px;
     flex-wrap: wrap;
     padding-bottom: 3vw;
-    font-size: 2vw;
+    font-size: 1.5vw;
 }
 
 .footer .block1 {
@@ -227,8 +219,16 @@
   display: flex;
  }
 
- hr { 
- width: 50%;
- margin-top: 3vw;
+.footer a:link {
+  color: rgb(100, 141, 165);
+   text-decoration: none;
 }
 
+.footer a:visited {
+  color: rgb(175, 175, 175);
+}
+
+.footer a:hover,
+.footer p:hover {
+  color: rgb(104, 186, 238);
+}  

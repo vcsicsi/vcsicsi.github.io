@@ -26,53 +26,72 @@
 <body>
     <!--------------------Menu--------------------->
     <div class="menu">
-     <div class="menu-flex"> 
         <div class = "title">
-            <i class="fa fa-cloud" style="font-size: 2em"></i>
-            <a href="https://odp.met.hu" title="ODP">Meteorológiai Adattár</a>           
+            <i class="fa fa-cloud" style="font-size: 5vw"></i>
+            <a href="https://odp.met.hu" title="ODP" target="_blank">Meteorológiai Adattár</a>           
        </div>
-        <!-- The form -->
-        <form class="btn_keres">
-            <input type="text" placeholder="Name to Search.." name="search" id="hely" />
-            <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
-            <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button>
-        </form>
-     </div> 
     </div>
-    <div class="content_p"> 
-        <!------Map------>                    
+    <hr>
+    <div class="content_p">
+        <p> A térképren az Országos Meteorológiai Szolgálat meteorológiai állomásai és azok kódjai láthatóak. 
+            A térképre kattintva a legközebbi állomást és az attól vett távolságot jeleníti meg.
+            A keresővel magyarországi városok jeleníthetőek meg, újabb kattintással pedig egy újabb távolság keresés. 
+            A városok az OpenStreetMap által geojson adatbázisából kérdeződnek le.
+            Az "x" gombbal az összes keresés törlődik. Az adatok az 
+            <a href = https://odp.met.hu" title="ODP" target="_blank"> odp.met.hu </a>     
+            oldalról származnak.
+        </p> 
+        
+        <!------Map------>  
+        <div class="flex">
+            <!-- The form -->
+            <form class="btn_keres">
+                <input type="text" placeholder="Name to Search.." name="search" id="hely" />
+                <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
+                <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button>
+            </form>
+         </div>                  
             <div id="map">    
             </div>
+            <small>
+                <a href = "example.html" target="_blank">See this map stand-alone</a>
+            </small>
         <!-------Graph------>
         <div class = "graph">
-        <p> Meteorológiai állomás grafikus megjelenítése: </p>
-            <form class="btn_keres1">
-                <input type="text" placeholder="44527" name="search1" id="code" />
-                <select name="search2" id="valt"></select> 
-                <button type="button" id="Btn1" onclick="statkeres()"><i class="fa fa-search"></i></button>
-            </form>
+            <p> Az alábbi keresővel állomáskód alapján megjeleníthető az elmúlt 24 óra 10 perces meteorológiai adatai. 
+                A kód mellett  választható a meteorológiai változó a legördülő menü segítségével. </p>    
+            <div class="flex">
+                <div class="flex-title">
+                <p> Meteorológiai állomás grafikus megjelenítése: </p>
+                </div>
+                    <form class="btn_keres1">
+                        <input type="text" placeholder="44527" name="search1" id="code" />
+                        <select name="search2" id="valt"></select> 
+                        <button type="button" id="Btn1" onclick="statkeres()"><i class="fa fa-search"></i></button>
+                    </form>
+            </div>
             <div id="myPlot">  
             </div>
         </div>
     </div>
+    <hr>
     <!--------Footer--------->   
     <div class="footer">
-            <hr>
     <div class="break"></div>
         <div class="flex-item">
             <div class="block1">
                 <p>© 2022 Copyright: </p>
-                <a href = "https://github.com/vcsicsi/">  Vincze Csilla </a>
+                <a href = "https://github.com/vcsicsi/" target="_blank">  Vincze Csilla </a>
             </div> 
     <div class="break"></div>
             <div class="block1">
                 <p>© Maps:   </p>
-                <a href="https://leafletjs.com/">  Leaflet </a>
+                <a href="https://leafletjs.com/" target="_blank">  Leaflet </a>
             </div>   
     <div class="break"></div>
             <div class="block1">
                 <p>© Data: </p>
-                <a href="https://met.hu/">  Országos Meteorológiai Szolgálat </a>
+                <a href="https://met.hu/" target="_blank">  Országos Meteorológiai Szolgálat </a>
             </div>       
         </div>      
     </div>
