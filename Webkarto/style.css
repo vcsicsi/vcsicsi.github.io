@@ -23,14 +23,14 @@ hr {
 
 /* The width is 100%, when the viewport is 480px or smaller */
 @media only screen and (max-width:480px) { 
-  body {
-    width: 100%;}}
+  body {width: 100%;}} 
 
 body {
   background-color: white;
   font-family: "Trebuchet MS", Verdana, sans-serif;
   font-size: 1em;
   }
+
 .flex {
   padding-top: 1vw;
   display: flex;
@@ -110,12 +110,12 @@ body {
 /********************************** Content p ********************************************************************/
 .content_p {
     position: relative;
-    height: 1820px;
     color: rgb(114, 114, 114);
     padding: 3vw;
     text-align: justify;
     padding-top: 2vw;
     line-height: 2em;
+    height:300vmin;
 }
 
 .content_p #map { 
