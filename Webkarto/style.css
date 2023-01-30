@@ -109,7 +109,7 @@ body {
 /********************************** Content p ********************************************************************/
 .content_p {
     position: relative;
-    height: calc(250vh - 250px);
+    height: calc(280vh - 280px);
     color: rgb(114, 114, 114);
     padding: 3vw;
     text-align: justify;
