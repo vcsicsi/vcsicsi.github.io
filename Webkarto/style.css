@@ -29,7 +29,7 @@ hr {
 body {
   background-color: white;
   font-family: "Trebuchet MS", Verdana, sans-serif;
-  font-size: 1.5vw;
+  font-size: 1em;
   }
 .flex {
   padding-top: 1vw;
@@ -65,7 +65,7 @@ body {
 .menu p {
     color: rgb(109, 109, 109);}
 .menu a {
-  font-size: 3vw}
+  font-size: 2em}
 
 /*************************** button********************************************/
 .btn_keres {
@@ -77,7 +77,7 @@ body {
 
 .btn_keres input[type=text] {
   padding: 5px;
-  font-size: 1vw;
+  font-size: 0.5em;
   border: 1px solid grey;
   float: left;
   width: 80%;
@@ -90,7 +90,7 @@ body {
   width: 20%;
   background: rgb(104, 186, 238);
   color: white;
-  font-size: 1.5vw;
+  font-size: 1.2em;
   border: 1px solid grey;
   border-left: none; /* Prevent double borders */
   cursor: pointer;
@@ -110,7 +110,7 @@ body {
 /********************************** Content p ********************************************************************/
 .content_p {
     position: relative;
-    /*height: calc(350vh - 350px);*/
+    height: calc(320vh - 320px);
     color: rgb(114, 114, 114);
     padding: 3vw;
     text-align: justify;
@@ -144,13 +144,13 @@ body {
 
 .flex-title {
   padding-top: 2vw;
-  font-size: 2vw;
+  font-size: 1.5em;
   text-align:left;
 }
 .graph #myPlot {
   padding-top: 1vw;
   width: 100%;
-  height: calc(80vh - 80px);
+  /*height: calc(80vh - 80px);*/
   position: relative;
 }
 
@@ -166,7 +166,7 @@ body {
   width: 20%;
   background: rgb(104, 186, 238);
   color: white;
-  font-size: 1.5vw;
+  font-size: 1.2em;
   border: 1px solid grey;
   border-left: none; /* Prevent double borders */
   cursor: pointer;
@@ -174,7 +174,7 @@ body {
 
 .btn_keres1 input[type=text] {
   padding: 5px;
-  font-size: 1.5vw;
+  font-size: 0.5em;
   border: 1px solid rgb(116, 115, 115);
   float: left;
   width: 60%;
@@ -193,8 +193,8 @@ body {
 
 /****************************footer***********************/
 .footer {
-    position: relative;
-    height: 6vw;
+    position:relative;
+    height: 8vw;
     text-align:center;
     display: flex;
     justify-content: center;
@@ -202,7 +202,7 @@ body {
     color: black;
     gap: 1px;
     flex-wrap: wrap;
-    font-size: 1.5vw;
+    font-size: 1em;
 }
 
 .footer .block1 {
@@ -219,6 +219,7 @@ body {
   flex-basis: 100%;
   height: 0;
   display: flex;
+  align-items: center;
  }
 
 .footer a:link {
