@@ -137,9 +137,11 @@ map.on('click', function(e) {
 //https://leafletjs.com/examples/mobile/                                                             
 
 //----------------------------------------------Graph --------------------------------------------------------------   
-function statkeres() {
+
+function statkeres(value) {
     // metdata fom zip file
     var code=document.getElementById("code").value;
+    var headdropdown = document.getElementById("valt");
     if (code.length<1) code=44527;
     var zip = new JSZip();
     const datum=[];
@@ -152,6 +154,26 @@ function statkeres() {
                     .then(z=>z.file(/./)[0].async("text"))
                         .then(d=>{
                             let sorok=d.split('\n');
+                            
+                            //select    
+                            const head = sorok[5].split(";");
+                            header = [head.length];
+                            for (let i=0; i < head.length; i++) {
+                                header[i] = head[i].trim();
+                            };
+                            let headerr=[];
+                            headerr = header.filter((hr) => ! hr.startsWith("Q_"));
+                            for (let key=2; key<header.length-1; key++) {
+                                let option = document.createElement("option");
+                                option.setAttribute("value", key);
+                                    
+                                let optionText = document.createTextNode(header[key]);
+                                option.appendChild(optionText);
+                                headdropdown.appendChild(option);
+                                    
+                            };
+                            var rr=document.getElementById("valt").value;
+                            //data    
                             for (let i=7;i<sorok.length;i++) {
                                 let adatok=sorok[i].split(';');
                                 for (let j in adatok) {
@@ -162,11 +184,12 @@ function statkeres() {
                                 let a=adatok[1];
                                 let d=a.substr(0,4)+"-"+a.substr(4,2)+"-"+a.substr(6,2)+"T"+a.substr(8,2)+":"+a.substr(10,2)+"Z";
                                 datum.push(d);
-                                akthom.push(Number(adatok[4]));
+                                akthom.push(Number(adatok[rr]));
                             }
                             // smooth
-                              for (let i=1; i<akthom.length-1; i++)
-                                  akthoms[i]=(akthom[i-1]+akthom[i]+akthom[i+1])/3;
+                            if (header[rr] == "t" || header[rr] =="ta" || header[rr] =="tx"|| header[rr] =='tn') {
+                            for (let i=1; i<akthom.length-1; i++)
+                                akthoms[i]=(akthom[i-1]+akthom[i]+akthom[i+1])/3;}
                             for (let i=0;i<tooltip.length;i++){
                             if (Number(tooltip[i].substr(0,5)) == code) {
                                 var name = tooltip[i];
@@ -193,6 +216,24 @@ function statkeres() {
                             
                             var data = [data1, data2];
 
+                            //Annonation
+                            var aktualann = []
+                            if (header[rr] == "t" || header[rr] =="ta" || header[rr] =="tx"|| header[rr] =='tn') {
+                                 aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' °C';
+                            } else if (header[rr] == "r") {
+                                aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' mm';      
+                            } else if (header[rr] == "u") {
+                                aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' %';      
+                            } else if (header[rr] == "p") {
+                                aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' hpa';      
+                            } else if (header[rr] == "fx" | header[rr] == "fs") {
+                                aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' m/s';      
+                            } else if (header[rr] == "fxd" | header[rr] == "fsd") {
+                                aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' °';      
+                            } else {
+                                aktualann = 'Aktuális: '+akthom[akthom.length-1];
+                            }
+
                             // Define Layout
                             var layout = {
                             hovermode:'closest',    
@@ -205,7 +246,7 @@ function statkeres() {
                             },  
                             yaxis: {
                                 title: {
-                                    text: "Temperature in °C", 
+                                    text: "", 
                                     font: {
                                         size: 12
                                     }
@@ -218,7 +259,7 @@ function statkeres() {
                                 },
                             automargin: true,
                             annotations: [{
-                                text: 'Aktuális: '+akthom[akthom.length-1] + ' °C',
+                                text: aktualann,
                                   font: {
                                   size: 12,
                                   color: 'rgb(116, 101, 130)',
@@ -234,11 +275,11 @@ function statkeres() {
 
                             var config = {responsive: true}
 
-                            Plotly.newPlot("myPlot", data, layout, config);
-
+                            Plotly.newPlot("myPlot", data, layout, config);                       
+                            
                         }); 
-        document.getElementById("code").value="";                           
-        };
+        //document.getElementById("code").value="";
+    };
 
 
 //Press Enter hely kereses    
@@ -247,8 +288,8 @@ input.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         event.preventDefault();
         document.getElementById("Btn1").click();
-        event.currentTarget.value = "";
     }   
 });  
 
 document.getElementById("Btn1").click();
+
