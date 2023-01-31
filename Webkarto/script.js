@@ -172,6 +172,9 @@ function statkeres(value) {
                                 headdropdown.appendChild(option);
                                     
                             };
+                            console.log(headdropdown);
+                            //console.log(headdropdown.options[headdropdown.selectedIndex].text);
+
                             var rr=document.getElementById("valt").value;
                             //data    
                             for (let i=7;i<sorok.length;i++) {
@@ -292,4 +295,5 @@ input.addEventListener("keypress", function(event) {
 });  
 
 document.getElementById("Btn1").click();
+
 
