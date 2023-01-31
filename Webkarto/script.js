@@ -211,7 +211,6 @@ function statkeres() {
                                     }
                                 },
                             },
-                            height: 500,
                             title:  {
                                 text: name, 
                                 font: {
