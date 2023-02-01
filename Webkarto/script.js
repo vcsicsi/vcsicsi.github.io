@@ -161,16 +161,17 @@ function statkeres(value) {
                             for (let i=0; i < head.length; i++) {
                                 header[i] = head[i].trim();
                             };
+                            //console.log(header);
                             let headerr=[];
                             headerr = header.filter((hr) => ! hr.startsWith("Q_"));
-                            for (let key=2; key<header.length-1; key++) {
+                            //console.log(headerr);
+                            for (let key=2; key<headerr.length-1; key++) {
                                 let option = document.createElement("option");
-                                option.setAttribute("value", key);
-                                    
-                                let optionText = document.createTextNode(header[key]);
+                                if (key == 2) {option.setAttribute("value",key);
+                                    } else {option.setAttribute("value",key + key-2)};
+                                let optionText = document.createTextNode(headerr[key]);
                                 option.appendChild(optionText);
-                                headdropdown.appendChild(option);
-                                    
+                                headdropdown.appendChild(option);                                    
                             };
                             console.log(headdropdown);
                             //console.log(headdropdown.options[headdropdown.selectedIndex].text);
@@ -187,6 +188,7 @@ function statkeres(value) {
                                 let a=adatok[1];
                                 let d=a.substr(0,4)+"-"+a.substr(4,2)+"-"+a.substr(6,2)+"T"+a.substr(8,2)+":"+a.substr(10,2)+"Z";
                                 datum.push(d);
+                                
                                 akthom.push(Number(adatok[rr]));
                             }
                             // smooth
