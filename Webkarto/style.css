@@ -6,13 +6,37 @@
 /* cloud */
 .fa-cloud{
   color:rgb(104, 186, 238);
+  padding-right: 0.5vw;
 }
 
 hr { 
   width: 100%;
-  margin-top: 3vw;
-  margin-bottom: 3vw;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
  }
+
+.list {
+  display: flex;  
+  flex-wrap: wrap;
+  margin-right: 0;
+  text-align: left;
+  margin-block-end: 0;
+  padding-inline-end: 0;
+  justify-content: center;
+}
+
+.list li {
+  display: inline;
+  border: 1px solid;
+  border-radius: 2px;
+  box-sizing: border-box;
+  width: calc(50% - 3em);
+  font-size: 0.8em;
+  align-items: center; 
+  margin: 10px 10px 0 0;
+  padding: 8px 8px ;
+  line-height: 1.2em;
+} 
 
 /***************************** BODY ************************************/
 @media screen and (min-width: 1025px){
@@ -144,7 +168,7 @@ body {
 }
 
 .flex-title {
-  padding-top: 2vw;
+  padding-top: 0vw;
   font-size: 1.2em;
   text-align:left;
 }

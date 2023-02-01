@@ -223,7 +223,7 @@ function statkeres(value) {
 
                             //Annonation
                             var aktualann = []
-                            if (header[rr] == "t" || header[rr] =="ta" || header[rr] =="tx"|| header[rr] =='tn'|| header[rr] =='et5' || header[rr] =='et10' || header[rr] =='et20' || header[rr] =='et50' || header[rr] =='et100') {
+                            if (header[rr] == "t" || header[rr] =="ta" || header[rr] =="tx"|| header[rr] =='tn'|| header[rr] =='et5' || header[rr] =='et10' || header[rr] =='et20' || header[rr] =='et50' || header[rr] =='et100' || header[rr] =='tviz' || header[rr] =='tsn') {
                                  aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' °C';
                             } else if (header[rr] == "r") {
                                 aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' mm';      
