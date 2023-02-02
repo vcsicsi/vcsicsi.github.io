@@ -166,14 +166,20 @@ function statkeres(value) {
                             headerr = header.filter((hr) => ! hr.startsWith("Q_"));
                             //console.log(headerr);
                             for (let key=2; key<headerr.length-1; key++) {
+                                if(headdropdown.length != headerr.length - 3) {
                                 let option = document.createElement("option");
-                                if (key == 2) {option.setAttribute("value",key);
-                                    } else {option.setAttribute("value",key + key-2)};
-                                let optionText = document.createTextNode(headerr[key]);
-                                option.appendChild(optionText);
-                                headdropdown.appendChild(option);                                    
-                            };
-                            console.log(headdropdown);
+                                if (key == 2) {
+                                        option.setAttribute("value",key);
+                                    } else {
+                                        option.setAttribute("value",key + key-2);
+                                        console.log(key);
+                                    };
+                                        option.text = headerr[key];
+                                        headdropdown.add(option); 
+                                    }else
+                                        break                                         
+                                };
+                            //console.log(headdropdown);
                             //console.log(headdropdown.options[headdropdown.selectedIndex].text);
 
                             var rr=document.getElementById("valt").value;
