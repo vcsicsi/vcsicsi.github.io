@@ -9,10 +9,15 @@
   padding-right: 0.5vw;
 }
 
+.fa-map-marker{
+  color:rgb(104, 186, 238);
+  padding-right: 0.5vw;
+}
+
 hr { 
   width: 100%;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
+  margin-top: 5vw;
+  margin-bottom: 3vw;
  }
 
 .list {
@@ -168,8 +173,9 @@ body {
 }
 
 .flex-title {
-  padding-top: 0vw;
-  font-size: 1em;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+  font-size: 1.3em;
   text-align:left;
 }
 .graph #myPlot {
@@ -220,26 +226,37 @@ body {
 /***********************      actual     ********************/
 .astronomy {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   padding-top: 2vw;
 }
 
 .astronomy-item {
   margin: 10px 10px 0 0;
-  padding: 8px 8px ;
+  padding: 10px 10px;
+}
+
+#metr {
+  text-align: center;
+  padding: 2vw;
+  font-size: 1.5em;
 }
 
 .mettable {
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 
-.mettable #display-table {
-  border-collapse: collapse;
-  margin: 10px 10px 0 0 ;
-  padding: 8px 8px ;
-  font-size: 1em;
-}
+.mettable li {
+  display:inline-block;
+  background-color: rgb(104, 186, 238);
+  color: white;
+  border-radius: 2px;
+  box-sizing: border-box;
+  font-size: 0.8em;
+  margin: 3px 3px 0 0;
+  padding: 10px 10px ;
+  line-height: 1.3em;  
+} 
+
 /****************************footer***********************/
 .footer {
     position:relative;

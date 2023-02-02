@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
     <!--JSZIP-->
     <script src="jszip.js"></script>
+    <!--suncalx-->
+    <script src ="suncalc.js"></script>  
     <!--ploty.js-->
     <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
     <!--Webstyle-->
@@ -21,7 +23,7 @@
     <!-- Load icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--favicon-->
-    <link href="favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="favicon.ico" rel="icon" type="image/x-icon" />   
 </head>  
 <body>
     <!--------------------Menu--------------------->
@@ -103,33 +105,34 @@
                         <button type="button" id="Btn1" onclick="statkeres($('#valt').val())"><i class="fa fa-search"></i></button>
                     </form>
             </div>
+            <div id = "metr"> <i class="fa fa-map-marker" style="font-size: 1em"></i> <span id = "met"></span> </div>
+            <div class = "mettable">
+                    <ul>
+                        <li><img src="https://img.icons8.com/material-outlined/24/000000/thermometer.png"
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/> Hőmérséklet: <span id = "ta"></span> </li>
+                        <li><img src="https://img.icons8.com/ios-glyphs/30/null/wind--v1.png" 
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/>Szélsebesség:<span id = "fs"></span></li>
+                        <li><img src="https://img.icons8.com/ios-glyphs/30/null/wind--v1.png" 
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/>Szélirány: <span id = "fsd"></span></li>
+                        <li><img src="https://img.icons8.com/ios-glyphs/30/null/wind--v1.png" 
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/>Széllökés: <span id = "fx"></span></li>
+                        <li><img src="https://img.icons8.com/ios/50/null/barometer-gauge.png" 
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/>Műszerszinti légnyomás <span id = "p"></span></li>
+                    </ul>
+            </div>
             <div class = "astronomy">
                 <div class = "astronomy-item">
-                    <img scr="sunrise.png"><strong>06:58</strong>
+                    <img src="https://img.icons8.com/ios/50/null/sunrise--v1.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <span id="sunrise" style="font-size:1em"></span>
                 </div>
                 <div class = "astronomy-item">
-                    <i class="fa fa-cloud" style="font-size: 1em"></i><strong>06:58</strong>
+                    <img src="https://img.icons8.com/ios/50/null/sunset--v1.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <span id="sunset" style="font-size:1em"></span>
                 </div>
                 <div class = "astronomy-item">
-                    <i class="fa fa-cloud" style="font-size: 1em"></i><strong>06:58</strong>
+                    <img src="https://img.icons8.com/ios/50/null/crescent-moon.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <span id="moon" style="font-size:1em"></span>
                 </div>
-            </div>
-            <div class = "mettable">
-                <table id="display-table" class="fl-table">
-                    <thead>
-                      <tr>
-                        <th>Hőmérséklet</th>
-                        <th>Szélsebesség</th>
-                        <th>Szélirány</th>
-                        <th>Széllökés</th>
-                        <th>Műszerszinti légnyomás</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody id="table-data">
-                
-                    </tbody>
-                  </table>
             </div>
             <div id="myPlot">  
             </div>
@@ -140,7 +143,7 @@
     <div class="break"></div>
         <div class="flex-item">
             <div class="block1">
-                <p>© 2022 Copyright: </p>
+                <p>© 2023 Copyright: </p>
                 <a href = "https://github.com/vcsicsi/" target="_blank">  Vincze Csilla </a>
             </div> 
     <div class="break"></div>
@@ -156,6 +159,6 @@
         </div>      
     </div>
 </div>
-    <script src="script.js"></script>    
+    <script src="script.js"></script>
 </body>
 </html>  
