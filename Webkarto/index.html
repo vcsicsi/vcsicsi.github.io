@@ -4,165 +4,166 @@
     <meta charset="UTF-8">
     <meta name = 'Author' content="Vincze Csilla">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
-    <title> Meteorológiai Adattár </title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-     integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-     crossorigin=""/>
-
-     <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-    crossorigin=""></script>
-    
+    <title> Meteorológiai Adattár </title> 
+    <!--Leaftlet style--> 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>    
     <!-- Load jQuery and PapaParse to read data from a CSV file --> 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
-
-    <!-----------JSZIP----------->
+    <!--JSZIP-->
     <script src="jszip.js"></script>
-    
+    <!--suncalx-->
+    <script src ="suncalc.js"></script>  
+    <!--ploty.js-->
+    <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
     <!--Webstyle-->
-    <link rel="stylesheet" href="Webkarto/style.css">
+    <link rel="stylesheet" href="style.css">
     <!-- Load icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--favicon-->
-    <link href="Webkarto/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="favicon.ico" rel="icon" type="image/x-icon" />   
 </head>  
-
 <body>
+    <!--------------------Menu--------------------->
     <div class="menu">
-     <div class="menu-flex"> 
         <div class = "title">
-            <i class="fa fa-cloud" style="font-size: 2em"></i>
-            <a href="https://odp.met.hu" title="ODP">Meteorológiai Adattár</a>           
+            <i class="fa fa-cloud" style="font-size: 3em"></i>
+            <a href="https://odp.met.hu" title="ODP" target="_blank">Meteorológiai Adattár</a>           
        </div>
-        <!-- The form -->
-        <form class="btn_keres">
-            <input type="text" placeholder="Search.." name="search" id="hely" />
-            <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
-            <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button>
-        </form>
-     </div> 
     </div>
+    <hr>
+    <div class="content_p">
+        
+        <!-------Graph------>
+        <div class = "graph">
+            <p> Az alábbi keresővel állomáskód alapján megjeleníthető az elmúlt 24 óra 10 perces meteorológiai adatai. 
+                A kód mellett lehetséges a meteorológiai változó kiválasztása a legördülő menü segítségével. 
+                Az állomások kódjai a térképen találhatóak meg - a kurzort az állomásokra (piros jelölőkre) irányítva.
+                A diagrammon az aktuális "Oringinal" adatok és a 30 perces mozgóátlag "Smooth" között lehet választani a jelmagyarázatra való kattintással.
+             </p>
+             
+            <hr> 
+            <div class="flex">
+                <div class="flex-title">
+                <p> Meteorológiai állomás grafikus megjelenítése: </p>
+                </div>
+                    <form class="btn_keres1">
+                        <input type="text" placeholder="44527" name="search1" id="code" />
+                        <select name="search2" id="valt" onmousedown="this.value='';" onchange="statkeres(this.value);"></select> 
+                        <button type="button" id="Btn1" onclick="statkeres($('#valt').val())"><i class="fa fa-search"></i></button>
+                    </form>
+            </div>
+            <div id = "metr"> <i class="fa fa-map-marker" style="font-size: 1em"></i> <span id = "met"></span> </div>
+            <div class = "mettable">
+                    <ul>
+                        <li><img src="https://img.icons8.com/material-outlined/24/000000/thermometer.png"
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/> Hőmérséklet: <span id = "ta"></span> </li>
+                        <li><img src="https://img.icons8.com/ios-glyphs/30/null/wind--v1.png" 
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/>Szélsebesség:<span id = "fs"></span></li>
+                        <li><img src="https://img.icons8.com/ios-glyphs/30/null/wind--v1.png" 
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/>Szélirány: <span id = "fsd"></span></li>
+                        <li><img src="https://img.icons8.com/ios-glyphs/30/null/wind--v1.png" 
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/>Széllökés: <span id = "fx"></span></li>
+                        <li><img src="https://img.icons8.com/ios/50/null/barometer-gauge.png" 
+                            style="width:1.5em;height:1.5em;margin-right:1px;"/>Műszerszinti légnyomás <span id = "p"></span></li>
+                    </ul>
+            </div>
+            <div class = "astronomy">
+                <div class = "astronomy-item">
+                    <img src="https://img.icons8.com/ios/50/null/sunrise--v1.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <span id="sunrise" style="font-size:1em"></span>
+                </div>
+                <div class = "astronomy-item">
+                    <img src="https://img.icons8.com/ios/50/null/sunset--v1.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <span id="sunset" style="font-size:1em"></span>
+                </div>
+                <div class = "astronomy-item">
+                    <img src="https://img.icons8.com/ios/50/null/crescent-moon.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <span id="moon" style="font-size:1em"></span>
+                </div>
+            </div>
+            <!------Plot------>  
+            <div id="myPlot"> </div>
+        </div>
+        
+        <hr>
 
-    <div class="content_p">                     
-        <div id="map">
-            <script>
-                var map = L.map('map').setView([47.475,19.062], 7);
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    minZoom: 5,
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
-                
-                //rétegcsoport
-			    var varosok=L.layerGroup().addTo(map);
-
-                // kene lenyíló szöveg és csak egyet kiválasztani. Aztán pedig megkeresni a legközelebbi metállomást és annak a kódját is kiírná.
-                function kereses() {                   
-                    // megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
-                    var h=document.getElementById("hely").value;
-                    var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
-                        fetch(url).then(r=>r.json()).then(data=>{
-                            var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
-                            }); 
-                    //clear text        
-                    document.getElementById("hely").value="";                                   
-                    };
-                
-                function clearmap() {                   
-                        varosok.clearLayers();
-                    };
-
-                //Press Enter hely kereses    
-                var input = document.getElementById("hely");
-                    input.addEventListener("keypress", function(event) {
-                        if (event.key === "Enter") {
-                            event.preventDefault();
-                            document.getElementById("Btn").click();
-                            event.currentTarget.value = "";
-                        }
-                 });
-
-                //tooltip a geokódoláshoz        
-                function tooltipszöveg (layer){
-                    var prop = layer.feature.properties;
-                    return (prop.icon?('<img src="'+prop.icon+'">'):'')
-                            +layer.feature.properties.display_name;
-                 }; 
-
-                //met.hu állomások rétegcsoport
-                //"https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
-                $.get('./Webkarto/data.csv', function(csv) {
-                    var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
-                                skipEmptyLines: true, dynamicTyping: true, 
-                                transformHeader:function(h) {
-                                return h.trim();
-                                }
-                        }).data;
-                    for (var i in data) {
-                        var row = data[i];
-                        var marker = L.marker([row.Latitude, row.Longitude], {
-                                opacity: 1, 
-                                icon: L.icon ({
-                                iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-                                iconSize:     [28, 45],
-                                iconAnchor: [22, 44],
-                                popupAnchor: [20, 44],
-                            })                            
-                            }).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName);
-                        marker.addTo(map);
-                    }
-                    console.log(data);
-                        });
-                
-                map.attributionControl.setPrefix(
-                'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
-                            );
-                            
-                // find me : map.locate({setView: true, maxZoom: 16});
-                //https://leafletjs.com/examples/mobile/
-
-                // metdata fom zip file
-                var zip = new JSZip();
-                    fetch('./Webkarto/HABP_10M_13704_now.zip')
-                        .then(r=>r.arrayBuffer())
-                            .then(d=>zip.loadAsync(d))
-                                .then(z=>z.file(/./)[0].async("text"))
-                                    .then(d=>{
-                                        let sorok=d.split('\n');
-                                        for (let i=7;i<sorok.length;i++) {
-                                            let adatok=sorok[i].split(';');
-                                            for (let j in adatok) {
-                                                adatok[j]=adatok[j].trim();
-                                            }
-                                            console.log(adatok.join(','));
-                                        }
-                                    });
-
-                </script>  
-        </div>      
-    </div>   
-
-    <div class="footer">
-            <hr>
-    <div class="break"></div>
-        <div class="flex-item">
-            <div class="block1">
-                <p>© 2022 Copyright: </p>
-                <a href = "https://github.com/vcsicsi/">  Vincze Csilla </a>
-            </div> 
-    <div class="break"></div>
-            <div class="block1">
-                <p>© Maps:   </p>
-                <a href="https://leafletjs.com/">  Leaflet </a>
-            </div>   
-    <div class="break"></div>
-            <div class="block1">
-                <p>© Data: </p>
-                <a href="https://met.hu/">  Országos Meteorológiai Szolgálat </a>
-            </div>       
-        </div>      
-    </div>   
+        <div class = "flex-title">
+            <p>Meteorológiai változók:</p>
+         </div>   
+         <ul class = "list">
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i> r = 10 perces csapadékösszeg (mm) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>ta = 10 perces átlaghőmérséklet              (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>tn = 10 perces minimum hőmérséklet           (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>tx = 10 perces maximum hőmérséklet           (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>t = pillanatnyi hőmérséklet               (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>u = pillanatnyi relatív nedvesség         (%) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>p = pillanatnyi műszerszinti légnyomás    (hPa) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>fs = 10 perces átlagos szélsebesség          (m/s) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>fsd = szinoptikus szélirány        (°) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>fx = 10 perces maximális széllökés sebessége           (m/s) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>fxd = 10 perces maximális széllökés iránya    (°) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>fxm = 10 perces maximális széllökés perce (’) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>fxs = 10 perces maximális széllökés másodperce (’’) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>sr = 10 perces átlagos globálsugárzás     (W/m²) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>sg = 10 perces átlagos gammadózis  (nSv/h) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>suv = 10 perces átlagos UV sugárzás (MED/h) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>v = pillanatnyi vízszintes látástávolság  (m) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>et5 = 10 perces 5 cm-es talajhőmérséklet     (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>et10 = 10 perces 10 cm-es talajhőmérséklet   (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>et20 = 10 perces 20 cm-es talajhőmérséklet   (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>et50 = 10 perces 50 cm-es talajhőmérséklet   (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>et100 = 10 perces 100 cm-es talajhőmérséklet   (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>tsn = 10 perces felszínközeli hőmérséklet minimuma  (°C) </li>
+                <li><i class="fa fa-cloud" style="font-size: 1em"></i>tviz = 10 perces vízhőmérséklet  (°C) </li>
+         </ul>
+    
+        <hr>
+        <!------Map------>  
+        <p> A térképren az Országos Meteorológiai Szolgálat állomásai és azok kódjai láthatóak. 
+            A térképre kattintva jelölőt lehet lehelyezni, így a legközebbi állomást és az attól vett távolságot jeleníti meg.
+            A keresővel magyarországi városok jeleníthetőek meg. A város keresése után ismételt kattintással a településre egy újabb távolságmérés történik. 
+            A városok az OpenStreetMap GeoJSON adatbázisából kérdeződnek le.
+            Az "x" gombbal az összes keresés és jelölő törlődik. Az adatok az 
+            <a href = https://odp.met.hu" title="ODP" target="_blank"> odp.met.hu </a>     
+            oldalról származnak.
+        </p> 
+        <div class="flex">
+            <!-- The form -->
+            <form class="btn_keres">
+                <input type="text" placeholder="Name to Search.." name="search" id="hely" />
+                <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
+                <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button>
+            </form>
+        </div>                  
+        <div id="map">  </div>
+        <small>
+            <a href = "example.html" target="_blank">See this map stand-alone</a>
+        </small>     
+        <hr>
+                <!--------Footer--------->   
+                <div class="footer">
+                <div class="break"></div>
+                    <div class="flex-item">
+                        <div class="block1">
+                            <p>© 2023 Copyright: </p>
+                            <a href = "https://github.com/vcsicsi/" target="_blank">  Vincze Csilla </a>
+                        </div> 
+                <div class="break"></div>
+                        <div class="block1">
+                            <p>© Maps:   </p>
+                            <a href="https://leafletjs.com/" target="_blank">  Leaflet </a>
+                        </div>   
+                <div class="break"></div>
+                        <div class="block1">
+                            <p>© Data: </p>
+                            <a href="https://met.hu/" target="_blank">  Országos Meteorológiai Szolgálat </a>
+                        </div>       
+                    </div>      
+                </div>
+    </div>
+        <script src="script.js"></script>
 </body>
 </html>  
