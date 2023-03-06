@@ -7,21 +7,19 @@ var  map = L.map('map').setView([47.475,19.062], 7),
 
 var stationsGeoJSON = {
         "type": "FeatureCollection",
-        "features": [ ]};
+        "features": []};
 
 var stationIcon = L.icon ({
         iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
         iconSize:     [28, 45],
         iconAnchor: [14, 44],
-        popupAnchor: [0, 0],});     
+        popupAnchor: [0, 0]});     
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             minZoom: 7,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-        map.attributionControl.setPrefix(
-        'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">map-csv code on GitHub</a>'
-                    );  
+        map.attributionControl.setPrefix();  
 
 var tooltip=[];                    
 //stations layergroup
@@ -39,49 +37,43 @@ var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", de
                             "coordinates": [row.Longitude, row.Latitude] },
                             "properties": {
                             "Location": row.StationName }}
-                stations_layer = L.geoJSON(feature, {
+                stations_layer = L.geoJSON(feature,{
                                 pointToLayer: function (feature, latlng) {
                                             return L.marker(latlng, {icon: stationIcon});
                                     }}).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName + "," + row.Elevation + " m").addTo(stations);
                                     tooltip.push(row.StationNumber+","+row.StationName+","+row.Elevation+" m"+","+row.Latitude+","+row.Longitude);
-                stationsGeoJSON.features.push(feature)
-                })    
-            }
+                stationsGeoJSON.features.push(feature)})}
             });
         });       
 
 // --------------FUNCTION: ------------------------   
 function kereses() {                   
-// megkeressük a 'hely' id-jű elemet és a beleírt értéket eltároljuk
-var h=document.getElementById("hely").value;
-var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
-    fetch(url).then(r=>r.json()).then(data=>{
-        var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
-            eredmeny.on('click',e=>{
-                    let hely=e.latlng;
-                    pontok[0] = e.latlng;
-                    let dmin=21000000; // ennél semmi sem lehet messzebb a földön
-                    let pont;
-                    stations.eachLayer(l=>{
-                        let d=hely.distanceTo(l.getLayers()[0].getLatLng());
-                        if (d<dmin) {
-                            dmin=d;
-                            pont=l.getLayers()[0];
-                        }                               
-                    })
-                    pontok[1]= pont.getLatLng();
-                    console.log(pontok);
-                    //pont.bindPopup('Ez a legközelebbi hely. Távolság: '+(dmin/1000).toFixed(2)+'km').openPopup();         
-                    L.polyline(pontok).addTo(dolgok)
-                        .bindPopup("Distance: "+(dmin/1000).toFixed(2)+" km")
-                        .openPopup();
-                                });
-        map.fitBounds(eredmeny.getBounds(), {
-            padding: [50, 50]
-                });                                   
-                            });        
-//clear text        
-document.getElementById("hely").value="";
+        var h=document.getElementById("hely").value;
+        var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
+            fetch(url).then(r=>r.json()).then(data=>{
+                var eredmeny=L.geoJson(data).addTo(varosok).bindTooltip(tooltipszöveg);
+                    eredmeny.on('click',e=>{
+                            let hely=e.latlng;
+                            pontok[0] = e.latlng;
+                            let dmin=21000000; // ennél semmi sem lehet messzebb a földön
+                            let pont;
+                            stations.eachLayer(l=>{
+                                let d=hely.distanceTo(l.getLayers()[0].getLatLng());
+                                if (d<dmin) {
+                                    dmin=d;
+                                    pont=l.getLayers()[0]}                               
+                            })
+                            pontok[1]= pont.getLatLng();
+                            console.log(pontok);
+                            L.polyline(pontok).addTo(dolgok)
+                                .bindPopup("Distance: "+(dmin/1000).toFixed(2)+" km")
+                                .openPopup()});
+                map.fitBounds(eredmeny.getBounds(), {
+                    padding: [50, 50]
+                        });                                   
+                                    });        
+        //clear text        
+        document.getElementById("hely").value="";
 };
 
 //x clear map
@@ -102,29 +94,28 @@ input.addEventListener("keypress", function(event) {
 
 //tooltip a geocoding      
 function tooltipszöveg (layer){
-var prop = layer.feature.properties;
-return (prop.icon?('<img src="'+prop.icon+'">'):'')
-        +layer.feature.properties.display_name;
+    var prop = layer.feature.properties;
+    return (prop.icon?('<img src="'+prop.icon+'">'):'')
+            +layer.feature.properties.display_name;
 }; 
 
 //----------------------------------search by click ---------------------------------------------------            
 var n=0;
 map.on('click', function(e) {
     //marker
-        n++;
-        let helyid = e.latlng;
-        L.marker(e.latlng).addTo(dolgok)
-            .bindPopup(n+'.pont')
-            .openPopup();
-        pontok[0]=e.latlng;
-        let dmin=21000000; // max
-        let pont;
+    n++;
+    let helyid = e.latlng;
+    L.marker(e.latlng).addTo(dolgok)
+        .bindPopup(n+'.pont')
+        .openPopup();
+    pontok[0]=e.latlng;
+    let dmin=21000000; // max
+    let pont;
     stations.eachLayer(l=>{
         let d=helyid.distanceTo(l.getLayers()[0].getLatLng());
                         if (d<dmin) {
                             dmin=d;
-                            pont=l.getLayers()[0];
-                        }
+                            pont=l.getLayers()[0]}
                     })
     pontok[1]=pont.getLatLng();
     console.log(pontok);                				
@@ -133,106 +124,73 @@ map.on('click', function(e) {
             .openPopup();				
         });			        
 
-// find me : map.locate({setView: true, maxZoom: 16});
-//https://leafletjs.com/examples/mobile/                                                             
-
 //----------------------------------------------Graph --------------------------------------------------------------   
-
 function statkeres(value) {
     // metdata fom zip file
     var code=document.getElementById("code").value;
     var headdropdown = document.getElementById("valt");
     if (code.length<1) code=44527;
     var zip = new JSZip();
-<<<<<<< HEAD
     var zip2 = new JSZip();
-=======
->>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
     const datum=[];
     const akthom=[];
     const akthoms=[];
     let url= 'http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/10_minutes/now/HABP_10M_'+code+'_now.zip';    
-<<<<<<< HEAD
-    let url2= 'http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/hourly/now/HABP_10M_'+code+'_now.zip';    
-=======
->>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
+    let url2= 'http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/hourly/now/HABP_1H_'+code+'_now.zip';    
     fetch(url/*'./Webkarto/HABP_10M_13704_now.zip'*/)
             .then(r=>r.arrayBuffer())
                 .then(d=>zip.loadAsync(d))
                     .then(z=>z.file(/./)[0].async("text"))
                         .then(d=>{
                             let sorok=d.split('\n');
-                            
                             //select    
                             const head = sorok[5].split(";");
                             header = [head.length];
                             for (let i=0; i < head.length; i++) {
-                                header[i] = head[i].trim();
-                            };
-                            //console.log(header);
+                                header[i] = head[i].trim()};
                             let headerr=[];
                             headerr = header.filter((hr) => ! hr.startsWith("Q_"));
-                            //console.log(headerr);
                             for (let key=2; key<headerr.length-1; key++) {
                                 if(headdropdown.length != headerr.length - 3) {
                                 let option = document.createElement("option");
                                 if (key == 2) {
                                         option.setAttribute("value",key);
-                                    } else {
-                                        option.setAttribute("value",key + key-2);
-                                        //console.log(key);
-                                    };
+                                    }else{
+                                        option.setAttribute("value",key + key-2)};
                                         option.text = headerr[key];
                                         headdropdown.add(option); 
                                     }else
-                                        break                                         
-                                };
-                            console.log(headdropdown);
-                            //console.log(headdropdown.options[headdropdown.selectedIndex].text);
-
+                                        break};
                             var rr=document.getElementById("valt").value;
                             //data    
                             for (let i=7;i<sorok.length;i++) {
                                 let adatok=sorok[i].split(';');
                                 for (let j in adatok) {
-                                    adatok[j]=adatok[j].trim();
-                                }
+                                    adatok[j]=adatok[j].trim()}
                                 //console.log(adatok.join(","))
                                 if (adatok.length<2) continue;
                                 let a=adatok[1];
                                 let d=a.substr(0,4)+"-"+a.substr(4,2)+"-"+a.substr(6,2)+"T"+a.substr(8,2)+":"+a.substr(10,2)+"Z";
                                 datum.push(d);
-                                
-                                akthom.push(Number(adatok[rr]));
-                            }
+                                akthom.push(Number(adatok[rr]))}
                             // smooth
                             if (header[rr] == "t" || header[rr] =="ta" || header[rr] =="tx"|| header[rr] =='tn') {
-                            for (let i=1; i<akthom.length-1; i++)
+                            for (let i=1; i<akthom.length-1; i++) {
                                 akthoms[i]=(akthom[i-1]+akthom[i]+akthom[i+1])/3;}
+                                }
                             for (let i=0;i<tooltip.length;i++){
                             if (Number(tooltip[i].substr(0,5)) == code) {
-                                var name = tooltip[i];
-                            }};
-
+                                var name = tooltip[i]}};
                             // Define Data
                             var data1 = {
-                                x: datum,
-                                y: akthom,
-                                mode:"lines",
-                                type:"scatter",
-                                line: {shape: 'spline', color:'rgb(142, 124, 195)', width:3},
-                                name: 'Original'
-                            };
-                            
+                                x: datum, y: akthom,
+                                mode:"lines", type:"scatter",
+                                line: {shape: 'spline', color:'rgb(142, 124, 195)', width:3}}; 
                             var data2 = {   
-                                x: datum,
-                                y: akthoms,
-                                mode:"lines",
-                                type:"scatter",
+                                x: datum,y: akthoms,
+                                mode:"lines", type:"scatter",
                                 line: {shape: 'spline', color:'rgb(234, 153, 153)', width: 2},
-                                name: 'Smooth'
-                            };
-                            
+                                name: 'Smooth'};
                             var data = [data1, data2];
 
                             //Annonation
@@ -262,50 +220,22 @@ function statkeres(value) {
                             } else if (header[rr] == "fxs" | header[rr] == "fxs") {
                                 aktualann = 'Aktuális: '+akthom[akthom.length-1] + ' "' ;                                     
                             } else {
-                                aktualann = 'Aktuális: '+akthom[akthom.length-1];
-                            }
+                                aktualann = 'Aktuális: '+akthom[akthom.length-1];}
 
                             // Define Layout
                             var layout = {
                             hovermode:'closest',    
-                            xaxis: {title: 
-                                {text: "Time UTC 10min", 
-                                font: { 
-                                    size: 12 
-                                    }
-                                },
-                            },  
-                            yaxis: {
-                                title: {
-                                    text: "", 
-                                    font: {
-                                        size: 12
-                                    }
-                                },
-                            },
-                            title:  {
-                                text: name.split(",")[1]+name.split(",")[2], 
-                                font: {
-                                    size: 14}
-                                },
+                            xaxis:{title: {text: "Time UTC 10min",  font:{size: 12}},},  
+                            yaxis:{title:{text: "",  font: {size: 12}},},
+                            title:{text: name.split(",")[1]+name.split(",")[2], font: {size: 14}},
                             automargin: true,
-                            annotations: [{
-                                text: aktualann,
-                                  font: {
-                                  size: 12,
-                                  color: 'rgb(116, 101, 130)',
-                                },
-                                showarrow: false,
-                                align: 'left',
-                                x: 1,
-                                y: 1.05,
-                                xref: 'paper',
-                                yref: 'paper',
-                              }]
-                            };
+                            annotations: [{ text: aktualann,
+                                            font: {size: 12, color: 'rgb(116, 101, 130)', },
+                                            showarrow: false,align: 'left',
+                                            x: 1,y: 1.05,
+                                            xref: 'paper', yref: 'paper',}]};
 
                             var config = {responsive: true}
-
                             Plotly.newPlot("myPlot", data, layout, config);                       
                             
                             //sunset times
@@ -353,20 +283,120 @@ function statkeres(value) {
                             p.innerHTML = '';
                             p.appendChild(ps);                            
                         }); 
-        //document.getElementById("code").value="";
-<<<<<<< HEAD
         
-    //jelenido
+    //jelenido oras adat beolvasasa
             fetch(url2)
                 .then(r=>r.arrayBuffer())
                     .then(d=>zip2.loadAsync(d))
                         .then(z=>z.file(/./)[0].async("text"))
                             .then(d=>{
                                     let sorok=d.split('\n');
-                                    console.log(sorok[sorok.length-2].split(";")[35]);
+                                    for (let i=7;i<sorok.length;i++) {
+                                        let adatok=sorok[i].split(';');
+                                        for (let j in adatok) {
+                                            adatok[j]=adatok[j].trim()}
+                                        if (adatok.length<2) continue; 
+                                    };
+                                    var jelenido = sorok[sorok.length-2].split(";")[34];
+                                    console.log(jelenido);                                   
+                                    if (jelenido == 1)  {
+                                        document.getElementById("jelenido").innerHTML = " derült";
+                                        document.getElementById("jelenimg").src = "/jelenido/";
+                                    }else if (jelenido == 2) {
+                                        document.getElementById("jelenido").innerHTML = " kissé felhős";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 3) {
+                                        document.getElementById("jelenido").innerHTML =  " közepesen felhős";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 4) {
+                                        document.getElementById("jelenido").innerHTML = " erősen felhős";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 5) {
+                                        document.getElementById("jelenido").innerHTML = " borult";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 6) {
+                                        document.getElementById("jelenido").innerHTML = " fátyolfelhős";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 7) {
+                                        document.getElementById("jelenido").innerHTML = " ködös";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 9) {
+                                        document.getElementById("jelenido").innerHTML = " derült, párás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 10) {
+                                        document.getElementById("jelenido").innerHTML = " közepesen felhős, párás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 11) {
+                                        document.getElementById("jelenido").innerHTML = " borult, párás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 12) {
+                                        document.getElementById("jelenido").innerHTML = " erősen fátyolfelsős";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 101) {
+                                        document.getElementById("jelenido").innerHTML = " szitálás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 102) {
+                                        document.getElementById("jelenido").innerHTML = " eső";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 103) {
+                                        document.getElementById("jelenido").innerHTML = " zápor",
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 104) {
+                                        document.getElementById("jelenido").innerHTML = " zivatar esővel";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 105) {
+                                        document.getElementById("jelenido").innerHTML = " ónos szitálás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 106) {
+                                        document.getElementById("jelenido").innerHTML = " ónos eső";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 107) {
+                                        document.getElementById("jelenido").innerHTML = " hószállingózás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 108) {
+                                        document.getElementById("jelenido").innerHTML =" havazás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 109) {
+                                        document.getElementById("jelenido").innerHTML =" hózápor";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 110) {
+                                        document.getElementById("jelenido").innerHTML = " havaseső";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 112) {
+                                        document.getElementById("jelenido").innerHTML =" hózivatar";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 202) {
+                                        document.getElementById("jelenido").innerHTML =" erős eső";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 203) {
+                                        document.getElementById("jelenido").innerHTML =" erős zápor";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 208) {
+                                        document.getElementById("jelenido").innerHTML =" erős havazás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 209) {
+                                        document.getElementById("jelenido").innerHTML = " erős hózápor";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 304) {
+                                        document.getElementById("jelenido").innerHTML =" zivatar záporral";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 310) {
+                                        document.getElementById("jelenido").innerHTML =" havaeső zápor";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 500) {
+                                        document.getElementById("jelenido").innerHTML =" hófúvás";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 600) {
+                                        document.getElementById("jelenido").innerHTML =" jégeső";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else if (jelenido == 601) {
+                                        document.getElementById("jelenido").innerHTML = " dörgés";
+                                        document.getElementById("jelenimg").src = "";
+                                    }else {
+                                        document.getElementById("jelenido").innerHTML = " NO DATA";
+                                        document.getElementById("jelenimg").src = "";
+                                    }
                                 });
-=======
->>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
     };
 
 
