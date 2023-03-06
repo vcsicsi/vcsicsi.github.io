@@ -35,7 +35,33 @@
     </div>
     <hr>
     <div class="content_p">
+<<<<<<< HEAD
         
+=======
+        <p> A térképren az Országos Meteorológiai Szolgálat állomásai és azok kódjai láthatóak. 
+            A térképre kattintva jelölőt lehet lehelyezni, így a legközebbi állomást és az attól vett távolságot jeleníti meg.
+            A keresővel magyarországi városok jeleníthetőek meg. A város keresése után ismételt kattintással a településre egy újabb távolságmérés történik. 
+            A városok az OpenStreetMap GeoJSON adatbázisából kérdeződnek le.
+            Az "x" gombbal az összes keresés és jelölő törlődik. Az adatok az 
+            <a href = https://odp.met.hu" title="ODP" target="_blank"> odp.met.hu </a>     
+            oldalról származnak.
+        </p> 
+        
+        <!------Map------>  
+        <div class="flex">
+            <!-- The form -->
+            <form class="btn_keres">
+                <input type="text" placeholder="Name to Search.." name="search" id="hely" />
+                <button type="button" id="Btn" onclick="kereses()"><i class="fa fa-search"></i></button>
+                <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button>
+            </form>
+         </div>                  
+            <div id="map">    
+            </div>
+            <small>
+                <a href = "example.html" target="_blank">See this map stand-alone</a>
+            </small>
+>>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
         <!-------Graph------>
         <div class = "graph">
             <p> Az alábbi keresővel állomáskód alapján megjeleníthető az elmúlt 24 óra 10 perces meteorológiai adatai. 
@@ -43,7 +69,39 @@
                 Az állomások kódjai a térképen találhatóak meg - a kurzort az állomásokra (piros jelölőkre) irányítva.
                 A diagrammon az aktuális "Oringinal" adatok és a 30 perces mozgóátlag "Smooth" között lehet választani a jelmagyarázatra való kattintással.
              </p>
+<<<<<<< HEAD
              
+=======
+             <div class = "flex-title">
+                <p>Meteorológiai változók:</p>
+             </div>   
+             <ul class = "list">
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i> r = 10 perces csapadékösszeg (mm) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>ta = 10 perces átlaghőmérséklet              (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>tn = 10 perces minimum hőmérséklet           (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>tx = 10 perces maximum hőmérséklet           (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>t = pillanatnyi hőmérséklet               (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>u = pillanatnyi relatív nedvesség         (%) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>p = pillanatnyi műszerszinti légnyomás    (hPa) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>fs = 10 perces átlagos szélsebesség          (m/s) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>fsd = szinoptikus szélirány        (°) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>fx = 10 perces maximális széllökés sebessége           (m/s) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>fxd = 10 perces maximális széllökés iránya    (°) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>fxm = 10 perces maximális széllökés perce (’) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>fxs = 10 perces maximális széllökés másodperce (’’) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>sr = 10 perces átlagos globálsugárzás     (W/m²) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>sg = 10 perces átlagos gammadózis  (nSv/h) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>suv = 10 perces átlagos UV sugárzás (MED/h) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>v = pillanatnyi vízszintes látástávolság  (m) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>et5 = 10 perces 5 cm-es talajhőmérséklet     (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>et10 = 10 perces 10 cm-es talajhőmérséklet   (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>et20 = 10 perces 20 cm-es talajhőmérséklet   (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>et50 = 10 perces 50 cm-es talajhőmérséklet   (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>et100 = 10 perces 100 cm-es talajhőmérséklet   (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>tsn = 10 perces felszínközeli hőmérséklet minimuma  (°C) </li>
+                    <li><i class="fa fa-cloud" style="font-size: 1em"></i>tviz = 10 perces vízhőmérséklet  (°C) </li>
+             </ul>
+>>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
             <hr> 
             <div class="flex">
                 <div class="flex-title">
@@ -84,6 +142,7 @@
                     <span id="moon" style="font-size:1em"></span>
                 </div>
             </div>
+<<<<<<< HEAD
             <!------Plot------>  
             <div id="myPlot"> </div>
         </div>
@@ -165,5 +224,33 @@
                 </div>
     </div>
         <script src="script.js"></script>
+=======
+            <div id="myPlot">  
+            </div>
+        </div>
+    <hr>
+    <!--------Footer--------->   
+    <div class="footer">
+    <div class="break"></div>
+        <div class="flex-item">
+            <div class="block1">
+                <p>© 2023 Copyright: </p>
+                <a href = "https://github.com/vcsicsi/" target="_blank">  Vincze Csilla </a>
+            </div> 
+    <div class="break"></div>
+            <div class="block1">
+                <p>© Maps:   </p>
+                <a href="https://leafletjs.com/" target="_blank">  Leaflet </a>
+            </div>   
+    <div class="break"></div>
+            <div class="block1">
+                <p>© Data: </p>
+                <a href="https://met.hu/" target="_blank">  Országos Meteorológiai Szolgálat </a>
+            </div>       
+        </div>      
+    </div>
+</div>
+    <script src="script.js"></script>
+>>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
 </body>
 </html>  

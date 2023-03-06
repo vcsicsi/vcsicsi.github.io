@@ -16,8 +16,13 @@
 
 hr { 
   width: 100%;
+<<<<<<< HEAD
   margin-top: 1px;
   margin-bottom: 1px;
+=======
+  margin-top: 5vw;
+  margin-bottom: 3vw;
+>>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
  }
 
 .list {
@@ -226,7 +231,11 @@ body {
 /***********************      actual     ********************/
 .astronomy {
   display: flex;
+<<<<<<< HEAD
   justify-content: center;
+=======
+  justify-content: right;
+>>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
   padding-top: 2vw;
 }
 

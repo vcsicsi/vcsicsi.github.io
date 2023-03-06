@@ -144,12 +144,18 @@ function statkeres(value) {
     var headdropdown = document.getElementById("valt");
     if (code.length<1) code=44527;
     var zip = new JSZip();
+<<<<<<< HEAD
     var zip2 = new JSZip();
+=======
+>>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
     const datum=[];
     const akthom=[];
     const akthoms=[];
     let url= 'http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/10_minutes/now/HABP_10M_'+code+'_now.zip';    
+<<<<<<< HEAD
     let url2= 'http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/hourly/now/HABP_10M_'+code+'_now.zip';    
+=======
+>>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
     fetch(url/*'./Webkarto/HABP_10M_13704_now.zip'*/)
             .then(r=>r.arrayBuffer())
                 .then(d=>zip.loadAsync(d))
@@ -348,6 +354,7 @@ function statkeres(value) {
                             p.appendChild(ps);                            
                         }); 
         //document.getElementById("code").value="";
+<<<<<<< HEAD
         
     //jelenido
             fetch(url2)
@@ -358,6 +365,8 @@ function statkeres(value) {
                                     let sorok=d.split('\n');
                                     console.log(sorok[sorok.length-2].split(";")[35]);
                                 });
+=======
+>>>>>>> d433bdae3a82d3da116cd6cba5365cf9c6153085
     };
 
 
