@@ -20,6 +20,7 @@
     <script src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
     <!--Webstyle-->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="weather-icons-master/css/weather-icons.css">
     <!-- Load icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--favicon-->
@@ -35,7 +36,6 @@
     </div>
     <hr>
     <div class="content_p">
-        
         <!-------Graph------>
         <div class = "graph">
             <div class="flex">
@@ -68,15 +68,16 @@
             </div>
             <div class = "astronomy">
                 <div class = "astronomy-item">
-                    <img src="https://img.icons8.com/ios/50/null/sunrise--v1.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <img src="weather-icons-master/svg/wi-sunrise.svg" style="width:2em;height:2em;padding-right:5px;"/>
                     <span id="sunrise" style="font-size:1em"></span>
                 </div>
                 <div class = "astronomy-item">
-                    <img src="https://img.icons8.com/ios/50/null/sunset--v1.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <img src="weather-icons-master/svg/wi-sunset.svg" style="width:2em;height:2em;padding-right:5px;"/>
                     <span id="sunset" style="font-size:1em"></span>
                 </div>
                 <div class = "astronomy-item">
-                    <img src="https://img.icons8.com/ios/50/null/crescent-moon.png" style="width:2em;height:2em;padding-right:5px;"/>
+                    <i class="wi wi-day-sunny" style="color:rgb(187, 184, 0); padding-right: 5px;font-size: 1.5em;" id="moonimg" ></i>
+                    <!--img src="#" style="width:2em;height:2em;padding-right:5px;" id = "moonimg"/-->
                     <span id="moon" style="font-size:1em"></span>
                 </div>
             </div>

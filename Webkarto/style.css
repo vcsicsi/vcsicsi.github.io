@@ -247,8 +247,11 @@ body {
 }
 
 .astronomy-item {
-  margin: 10px 10px 0 0;
-  padding: 10px 10px;
+  margin: 5px 5px 0 0;
+  padding: 2px 2px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 #metr {
