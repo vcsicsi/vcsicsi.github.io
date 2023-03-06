@@ -301,19 +301,19 @@ function statkeres(value) {
                                     console.log(jelenido);                                   
                                     if (jelenido == 1)  {
                                         document.getElementById("jelenido").innerHTML = " derült";
-                                        document.getElementById("jelenimg").src = "/jelenido/";
+                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-sunny.svg";
                                     }else if (jelenido == 2) {
                                         document.getElementById("jelenido").innerHTML = " kissé felhős";
-                                        document.getElementById("jelenimg").src = "";
+                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-sunny-overcast.svg";
                                     }else if (jelenido == 3) {
                                         document.getElementById("jelenido").innerHTML =  " közepesen felhős";
-                                        document.getElementById("jelenimg").src = "";
+                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-cloudy.svg";
                                     }else if (jelenido == 4) {
                                         document.getElementById("jelenido").innerHTML = " erősen felhős";
-                                        document.getElementById("jelenimg").src = "";
+                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-cloud.svg";
                                     }else if (jelenido == 5) {
                                         document.getElementById("jelenido").innerHTML = " borult";
-                                        document.getElementById("jelenimg").src = "";
+                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-cloudy.svg";
                                     }else if (jelenido == 6) {
                                         document.getElementById("jelenido").innerHTML = " fátyolfelhős";
                                         document.getElementById("jelenimg").src = "";
