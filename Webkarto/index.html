@@ -125,12 +125,14 @@
     
         <hr>
         <!------Map------>  
+        <div id="synop_map">  </div>
+
         <p> A térképren az Országos Meteorológiai Szolgálat állomásai és azok kódjai láthatóak. 
             A térképre kattintva jelölőt lehet lehelyezni, így a legközebbi állomást és az attól vett távolságot jeleníti meg.
             A keresővel magyarországi városok jeleníthetőek meg. A város keresése után ismételt kattintással a településre egy újabb távolságmérés történik. 
             A városok az OpenStreetMap GeoJSON adatbázisából kérdeződnek le.
             Az "x" gombbal az összes keresés és jelölő törlődik. Az adatok az 
-            <a href = https://odp.met.hu" title="ODP" target="_blank"> odp.met.hu </a>     
+            <a href = https://odp.met.hu title="ODP" target="_blank"> odp.met.hu </a>     
             oldalról származnak.
         </p> 
         <div class="flex">
@@ -141,7 +143,7 @@
                 <button type="button" id="Btn2" onclick="clearmap()"><i class="fa fa-times"></i></button>
             </form>
         </div>                  
-        <div id="map">  </div>
+        <div id="map"></div>
         <small>
             <a href = "example.html" target="_blank">See this map stand-alone</a>
         </small>     

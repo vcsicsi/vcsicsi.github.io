@@ -1,20 +1,17 @@
 //--------------------------------------------MAP------------------------------------------------------------------ 
-var  map = L.map('map').setView([47.475,19.062], 7),
+var  map = L.map('map').setView([47.309260999710865, 19.430559625325365], 7),
     varosok=L.layerGroup().addTo(map),
     stations=L.layerGroup().addTo(map),
     pontok=[],
     dolgok=L.layerGroup().addTo(map);
-
 var stationsGeoJSON = {
         "type": "FeatureCollection",
         "features": []};
-
 var stationIcon = L.icon ({
         iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
         iconSize:     [28, 45],
         iconAnchor: [14, 44],
         popupAnchor: [0, 0]});     
-
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             minZoom: 7,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -23,7 +20,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var tooltip=[];                    
 //stations layergroup
-let url = "http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv"   
+let url = "http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/10_minutes/station_meta_auto.csv" ;  
 $.get(url/*-'./data.csv'*/, function(csv) {
 var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", delimiter: ";", 
             skipEmptyLines: true, dynamicTyping: true, 
@@ -46,7 +43,7 @@ var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", de
             });
         });       
 
-// --------------FUNCTION: ------------------------   
+// -----------------------------------------FUNCTION: ----------------------------------------------------------------   
 function kereses() {                   
         var h=document.getElementById("hely").value;
         var url="https://nominatim.openstreetmap.org/search/place?format=geojson&country=Hungary&city="+h;
@@ -73,14 +70,12 @@ function kereses() {
                         });                                   
                                     });        
         //clear text        
-        document.getElementById("hely").value="";
-};
+        document.getElementById("hely").value=""};
 
 //x clear map
 function clearmap() {                   
     varosok.clearLayers();
-    dolgok.clearLayers();
-};
+    dolgok.clearLayers()};
 
 //Press Enter hely search
 var input = document.getElementById("hely");
@@ -88,16 +83,14 @@ input.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         event.preventDefault();
         document.getElementById("Btn").click();
-        event.currentTarget.value = "";
-    }
+        event.currentTarget.value = ""}
 });
 
 //tooltip a geocoding      
 function tooltipszöveg (layer){
     var prop = layer.feature.properties;
     return (prop.icon?('<img src="'+prop.icon+'">'):'')
-            +layer.feature.properties.display_name;
-}; 
+            +layer.feature.properties.display_name}; 
 
 //----------------------------------search by click ---------------------------------------------------            
 var n=0;
@@ -123,6 +116,55 @@ map.on('click', function(e) {
             .bindPopup("Distance: "+(dmin/1000).toFixed(2)+" km")
             .openPopup();				
         });			        
+//-------------------------------------------- Synop map ------------------------------------------------------------
+// Synoptic map with leaflet
+//https://odp.met.hu/weather/weather_reports/synoptic/hungary/10_minutes/csv/
+
+var synop_map =  L.map('synop_map').setView([47.309260999710865, 19.430559625325365], 7),
+    synop_stat = L.layerGroup().addTo(synop_map);
+var systationIcon = L.icon ({
+        iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
+        iconSize:     [28, 45],
+        iconAnchor: [14, 44],
+        popupAnchor: [0, 0]});     
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            minZoom: 7,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(synop_map);
+        map.attributionControl.setPrefix(); 
+var sytooltip=[]; 
+const config = {
+    header: true,
+    download: false,
+    encoding: "UTF-8",
+    delimiter: ";",
+    skipEmptyLines: true,
+    dynamicTyping: true,
+    worker: true,
+    };                   
+//stations layergroup
+let url2 = "http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/weather/weather_reports/synoptic/hungary/10_minutes/csv/HABP_10M_SYNOP_LATEST.csv.zip";
+fetch(url2)
+  .then(response => response.blob()) // Convert the response to a blob
+  .then(blob => {
+    // Create a new instance of JSZip and add the blob to it
+    const zip = new JSZip();
+    zip.file('data.csv', blob);
+
+    // Use JSZip's generateAsync method to convert the zip file to an ArrayBuffer
+    return zip.generateAsync({ type: 'arraybuffer' });
+  })
+  .then(buffer => {
+    // Convert the ArrayBuffer to a string
+    const csvString = String.fromCharCode.apply(null, new Uint8Array(buffer));
+
+    // Use PapaParse's parse method to parse the CSV data
+    const parsedData = Papa.parse(csvString, config).data;
+
+    // Do something with the parsed data
+    console.log(parsedData);
+  })
+  .catch(error => console.error(error));
 
 //----------------------------------------------Graph --------------------------------------------------------------   
 function statkeres(value) {
@@ -395,7 +437,7 @@ function statkeres(value) {
                                         document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-lightning.svg";
                                     }else {
                                         document.getElementById("jelenido").innerHTML = " NO DATA";
-                                        document.getElementById("jelenimg").src = "";
+                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-na.svg";
                                     }
                                 });
     };
@@ -490,3 +532,4 @@ if (age < 1.84566) {
     moonimg.classList.remove("wi-day-sunny");
     moonimg.classList.add("wi-moon-new");
 };
+

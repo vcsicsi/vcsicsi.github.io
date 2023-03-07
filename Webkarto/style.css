@@ -168,7 +168,13 @@ body {
 .content_p #map { 
     position: relative;
     width: 100%;
-    height: 350px;
+    height: 440px;
+}
+
+.content_p #synop_map { 
+  position: relative;
+  width: 100%;
+  height: 440px;
 }
 
 .content_p a:link {
