@@ -39,7 +39,7 @@ var data = Papa.parse(csv, {header: true, download: false, encoding: "UTF-8", de
                                             return L.marker(latlng, {icon: stationIcon});
                                     }}).bindTooltip(row.StationNumber + ", "+ row.RegioName + "," + row.StationName + "," + row.Elevation + " m").addTo(stations);
                                     tooltip.push(row.StationNumber+","+row.StationName+","+row.Elevation+" m"+","+row.Latitude+","+row.Longitude);
-                stationsGeoJSON.features.push(feature)})}
+                stationsGeoJSON.features.push(feature)}) }
             });
         });       
 
@@ -119,52 +119,57 @@ map.on('click', function(e) {
 //-------------------------------------------- Synop map ------------------------------------------------------------
 // Synoptic map with leaflet
 //https://odp.met.hu/weather/weather_reports/synoptic/hungary/10_minutes/csv/
-
-var synop_map =  L.map('synop_map').setView([47.309260999710865, 19.430559625325365], 7),
-    synop_stat = L.layerGroup().addTo(synop_map);
+var synop_map =  L.map('synop_map').setView([47.309260999710865, 19.430559625325365], 7)
+    synop_data = L.layerGroup().addTo(synop_map);
 var systationIcon = L.icon ({
         iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
         iconSize:     [28, 45],
         iconAnchor: [14, 44],
-        popupAnchor: [0, 0]});     
+        popupAnchor: [0, 0]}); 
+var systationsGeoJSON = {
+    "type": "FeatureCollection",
+    "features": []};  
+
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             minZoom: 7,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(synop_map);
         map.attributionControl.setPrefix(); 
-var sytooltip=[]; 
-const config = {
-    header: true,
-    download: false,
-    encoding: "UTF-8",
-    delimiter: ";",
-    skipEmptyLines: true,
-    dynamicTyping: true,
-    worker: true,
-    };                   
-//stations layergroup
-let url2 = "http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/weather/weather_reports/synoptic/hungary/10_minutes/csv/HABP_10M_SYNOP_LATEST.csv.zip";
-fetch(url2)
-  .then(response => response.blob()) // Convert the response to a blob
-  .then(blob => {
-    // Create a new instance of JSZip and add the blob to it
-    const zip = new JSZip();
-    zip.file('data.csv', blob);
-
-    // Use JSZip's generateAsync method to convert the zip file to an ArrayBuffer
-    return zip.generateAsync({ type: 'arraybuffer' });
-  })
+const szip = new JSZip();
+let url3 = "http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/weather/weather_reports/synoptic/hungary/10_minutes/csv/HABP_10M_SYNOP_LATEST.csv.zip";
+fetch(url3)
+  .then(r => r.arrayBuffer()) // Convert the response to a blob
+  .then(b => szip.loadAsync(b))
+  .then(bf => bf.file(/./)[0].async("text"))
   .then(buffer => {
     // Convert the ArrayBuffer to a string
-    const csvString = String.fromCharCode.apply(null, new Uint8Array(buffer));
-
-    // Use PapaParse's parse method to parse the CSV data
-    const parsedData = Papa.parse(csvString, config).data;
-
-    // Do something with the parsed data
-    console.log(parsedData);
+    let sorok = buffer.split('\n');
+    console.log(sorok[0]);
+    for (let i = 1; i<sorok.length-1;i++) {
+        var adatok = sorok[i].split(';');
+        for (let j in adatok) {
+            adatok[j]=adatok[j].trim()};
+            feature = {"type": "Feature",
+                            "geometry": {
+                            "type": "Point",
+                            "coordinates": [adatok[4], adatok[3]] },
+                            "properties": {
+                            "Location": adatok[2],
+                            "Temp":adatok[10]    
+                            }
+                        };                       
+        // Add stationsGeoJSON to map as a GeoJSON layer
+        station_layer = L.geoJSON(feature, {
+            pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {icon: systationIcon});
+            }
+        }).bindTooltip(adatok[10]).addTo(synop_data);
+        systationsGeoJSON.features.push(feature)
+    };
+        console.log(systationsGeoJSON);
   })
   .catch(error => console.error(error));
+
 
 //----------------------------------------------Graph --------------------------------------------------------------   
 function statkeres(value) {
@@ -179,7 +184,7 @@ function statkeres(value) {
     const akthoms=[];
     let url= 'http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/10_minutes/now/HABP_10M_'+code+'_now.zip';    
     let url2= 'http://terkeptar.elte.hu/~saman/get.php?url=https://odp.met.hu/climate/observations_hungary/hourly/now/HABP_1H_'+code+'_now.zip';    
-    fetch(url/*'./Webkarto/HABP_10M_13704_now.zip'*/)
+    fetch(url)
             .then(r=>r.arrayBuffer())
                 .then(d=>zip.loadAsync(d))
                     .then(z=>z.file(/./)[0].async("text"))
@@ -341,103 +346,134 @@ function statkeres(value) {
                                         if (adatok.length<2) continue; 
                                     };
                                     var jelenido = sorok[sorok.length-2].split(";")[34];
-                                    console.log(jelenido);                                   
+                                    var jelenimg = document.getElementById("jelenimg");
                                     if (jelenido == 1)  {
                                         document.getElementById("jelenido").innerHTML = " derült";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-sunny.svg";
+                                        jelenido.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-sunny");
                                     }else if (jelenido == 2) {
                                         document.getElementById("jelenido").innerHTML = " kissé felhős";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-sunny-overcast.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-sunny-overcast");
                                     }else if (jelenido == 3) {
                                         document.getElementById("jelenido").innerHTML =  " közepesen felhős";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-cloudy.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-cloudy");
                                     }else if (jelenido == 4) {
                                         document.getElementById("jelenido").innerHTML = " erősen felhős";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-cloud.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-cloud");
                                     }else if (jelenido == 5) {
                                         document.getElementById("jelenido").innerHTML = " borult";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-cloudy.svg";
+                                        jelenimg.classList.add("wi-cloudy");
                                     }else if (jelenido == 6) {
                                         document.getElementById("jelenido").innerHTML = " fátyolfelhős";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-light-wind.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-light-wind");
                                     }else if (jelenido == 7) {
                                         document.getElementById("jelenido").innerHTML = " ködös";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-fog.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-fog");
                                     }else if (jelenido == 9) {
                                         document.getElementById("jelenido").innerHTML = " derült, párás";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-haze.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-haze");
                                     }else if (jelenido == 10) {
                                         document.getElementById("jelenido").innerHTML = " közepesen felhős, párás";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-fog.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-fog");
                                     }else if (jelenido == 11) {
                                         document.getElementById("jelenido").innerHTML = " borult, párás";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-cloudy-windy.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-cloudy-windy");
                                     }else if (jelenido == 12) {
                                         document.getElementById("jelenido").innerHTML = " erősen fátyolfelsős";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-windy.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-windy");
                                     }else if (jelenido == 101) {
                                         document.getElementById("jelenido").innerHTML = " szitálás";
-                                        document.getElementById("jelenimg").src = "";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-sleet");
                                     }else if (jelenido == 102) {
                                         document.getElementById("jelenido").innerHTML = " eső";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-rain.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-rain");
                                     }else if (jelenido == 103) {
                                         document.getElementById("jelenido").innerHTML = " zápor",
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-shower.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-shower");
                                     }else if (jelenido == 104) {
                                         document.getElementById("jelenido").innerHTML = " zivatar esővel";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-thunderstorm.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-thunderstorm");
                                     }else if (jelenido == 105) {
                                         document.getElementById("jelenido").innerHTML = " ónos szitálás";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-sleet.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-sleet");
                                     }else if (jelenido == 106) {
                                         document.getElementById("jelenido").innerHTML = " ónos eső";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-sprinkle.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-sprinkle");
                                     }else if (jelenido == 107) {
                                         document.getElementById("jelenido").innerHTML = " hószállingózás";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-day-snow.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-day-snow");
                                     }else if (jelenido == 108) {
                                         document.getElementById("jelenido").innerHTML =" havazás";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-snow.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-snow");
                                     }else if (jelenido == 109) {
                                         document.getElementById("jelenido").innerHTML =" hózápor";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-snow-wind.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-snow-wind");
                                     }else if (jelenido == 110) {
                                         document.getElementById("jelenido").innerHTML = " havaseső";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-rain-mix.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-rain-mix");
                                     }else if (jelenido == 112) {
                                         document.getElementById("jelenido").innerHTML =" hózivatar";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-storm-showers.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-storm-showers");
                                     }else if (jelenido == 202) {
                                         document.getElementById("jelenido").innerHTML =" erős eső";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-rain.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-rain");
                                     }else if (jelenido == 203) {
                                         document.getElementById("jelenido").innerHTML =" erős zápor";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-rain-wind.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-rain-wind");
                                     }else if (jelenido == 208) {
                                         document.getElementById("jelenido").innerHTML =" erős havazás";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-snow-wind.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-snow-wind");
                                     }else if (jelenido == 209) {
                                         document.getElementById("jelenido").innerHTML = " erős hózápor";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-snow-wind.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-snow-wind");
                                     }else if (jelenido == 304) {
                                         document.getElementById("jelenido").innerHTML =" zivatar záporral";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-storm-showers.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-storm-showers");
                                     }else if (jelenido == 310) {
                                         document.getElementById("jelenido").innerHTML =" havaeső zápor";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-rain-mix.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-rain-mix");
                                     }else if (jelenido == 500) {
                                         document.getElementById("jelenido").innerHTML =" hófúvás";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-sandstorm.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-sandstorm");
                                     }else if (jelenido == 600) {
                                         document.getElementById("jelenido").innerHTML =" jégeső";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-hail.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-hail");
                                     }else if (jelenido == 601) {
                                         document.getElementById("jelenido").innerHTML = " dörgés";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-lightning.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add ("wi-lightning");
                                     }else {
                                         document.getElementById("jelenido").innerHTML = " NO DATA";
-                                        document.getElementById("jelenimg").src = "weather-icons-master/svg/wi-na.svg";
+                                        jelenimg.classList.remove("wi-day-sunny");
+                                        jelenimg.classList.add("wi-na");
                                     }
                                 });
     };

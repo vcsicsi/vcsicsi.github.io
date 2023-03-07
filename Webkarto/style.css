@@ -10,9 +10,8 @@
 }
 
 #jelenimg {
-  width:3em;
-  height: 3em;
-  margin-right:1px;
+  margin-right:5px;
+  font-size: 2em;
 }
 
 .jelen {
