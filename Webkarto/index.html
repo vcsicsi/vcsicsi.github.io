@@ -39,20 +39,17 @@
         <!-------Graph------>
         <div class = "graph">
             <div class="flex">
-                <div class="flex-title">
-                <p> Meteorológiai állomás grafikus megjelenítése: </p>
-                </div>
+                <div id = "metr"> <i class="fa fa-map-marker" style="font-size: 1em"></i> <span id = "met"></span> </div>
                     <form class="btn_keres1">
                         <input type="text" placeholder="44527" name="search1" id="code" />
                         <select name="search2" id="valt" onmousedown="this.value='';" onchange="statkeres(this.value);"></select> 
                         <button type="button" id="Btn1" onclick="statkeres($('#valt').val())"><i class="fa fa-search"></i></button>
                     </form>
             </div>
-            <div id = "metr"> <i class="fa fa-map-marker" style="font-size: 1em; padding-top: 1em;"></i> <span id = "met"></span> </div>
-            
             <div class = "mettable">
                 <div class="jelen">
-                <i id = "jelenimg" class = "wi wi-day-sunny"></i> <span id = "jelenido"></span> </div>
+                    <i id = "jelenimg" class = "wi wi-day-sunny"></i> <span id = "jelenido"></span> 
+                </div>
                     <ul>  
                         <li><i class = "wi wi-thermometer"></i> Hőmérséklet: <span id = "ta"></span> </li>
                         <li><i class = "wi wi-strong-wind"></i>Szélsebesség:<span id = "fs"></span></li>

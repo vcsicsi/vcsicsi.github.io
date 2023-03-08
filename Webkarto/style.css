@@ -11,7 +11,7 @@
 
 #jelenimg {
   margin-right:5px;
-  font-size: 2em;
+  font-size: 3em;
 }
 
 .jelen {
@@ -20,6 +20,7 @@
   justify-content: center;
   flex-direction: row;
   align-items: center;
+  padding-bottom: 1em;
 }
 
 .fa-map-marker{
@@ -212,8 +213,6 @@ body {
   line-height: 30px;
 }
 
-
-
 .content_p a:link {
   color: rgb(124, 179, 210);
   text-decoration: none;}
@@ -247,7 +246,8 @@ body {
 
 /* button for graph*/
 .btn_keres1 {
-  width: 100%;}
+  width: 50%;
+padding-bottom: 1em;}
 .btn_keres1 select {
   width: 30%;
   overflow: hidden;}
@@ -302,7 +302,7 @@ body {
   padding-bottom: 2vw;
   font-size: 1.5em;
   padding-top: 0px;
-  line-height: 0em;
+  line-height: 1.5em;
 }
 
 .mettable {
