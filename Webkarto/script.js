@@ -121,15 +121,6 @@ map.on('click', function(e) {
 //https://odp.met.hu/weather/weather_reports/synoptic/hungary/10_minutes/csv/
 var synop_map =  L.map('synop_map').setView([47.309260999710865, 19.430559625325365], 7)
     synop_data = L.layerGroup().addTo(synop_map);
-var systationIcon = L.icon ({
-        iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",                    
-        iconSize:     [28, 45],
-        iconAnchor: [14, 44],
-        popupAnchor: [0, 0]}); 
-var systationsGeoJSON = {
-    "type": "FeatureCollection",
-    "features": []};  
-
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             minZoom: 7,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -149,7 +140,9 @@ fetch(url3)
         var adatok = sorok[i].split(';');
         for (let j in adatok) {
             adatok[j]=adatok[j].trim()};
-            feature = {"type": "Feature",
+        let a = new Text (adatok[0]);
+        var ido = a.substringData(8,2)+":"+a.substringData(10,2)+"Z";    
+        feature = {"type": "Feature",
                             "geometry": {
                             "type": "Point",
                             "coordinates": [adatok[4], adatok[3]] },
@@ -161,12 +154,30 @@ fetch(url3)
         // Add stationsGeoJSON to map as a GeoJSON layer
         station_layer = L.geoJSON(feature, {
             pointToLayer: function(feature, latlng) {
-                return L.marker(latlng, {icon: systationIcon});
+                var temperature = Number(adatok[10]);
+                var color;
+                if (temperature == -999) {
+                color = '#ffffff00'; //transparent
+                }else if (temperature < 0) {
+                color = '#0077be'; // blue
+                } else if (temperature < 5) {
+                color = '#00bfff'; // light blue
+                } else if (temperature < 10) {
+                color = '#ffcc00'; // yellow
+                } else if (temperature < 15) {
+                color = '#ff7f00'; // orange
+                } else {
+                color = '#ff3300'; // red
+                };
+                return L.marker(latlng, {icon: L.divIcon({
+                    className:'my-custom-icon',
+                    iconSize: [25,25],
+                    html: '<div style="background-color:' + color + '">' + temperature +'</div>'
+                    })
+                });
             }
-        }).bindTooltip(adatok[10]).addTo(synop_data);
-        systationsGeoJSON.features.push(feature)
-    };
-        console.log(systationsGeoJSON);
+        }).bindTooltip(adatok[1]+', '+adatok[2] + ', ' + ido).addTo(synop_data);    
+    };       
   })
   .catch(error => console.error(error));
 

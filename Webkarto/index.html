@@ -48,7 +48,7 @@
                         <button type="button" id="Btn1" onclick="statkeres($('#valt').val())"><i class="fa fa-search"></i></button>
                     </form>
             </div>
-            <div id = "metr"> <i class="fa fa-map-marker" style="font-size: 1em"></i> <span id = "met"></span> </div>
+            <div id = "metr"> <i class="fa fa-map-marker" style="font-size: 1em; padding-top: 1em;"></i> <span id = "met"></span> </div>
             
             <div class = "mettable">
                 <div class="jelen">
@@ -79,7 +79,6 @@
             <!------Plot------>  
             <div id="myPlot"> </div>
         </div>
-        <hr> 
         <p> Az alábbi keresővel állomáskód alapján megjeleníthető az elmúlt 24 óra 10 perces meteorológiai adatai. 
             A kód mellett lehetséges a meteorológiai változó kiválasztása a legördülő menü segítségével. 
             Az állomások kódjai a térképen találhatóak meg - a kurzort az állomásokra (piros jelölőkre) irányítva.
@@ -120,7 +119,16 @@
     
         <hr>
         <!------Map------>  
+        <div class = "flex-title">
+        <p> Aktuális időjárás: </p> </div>
+        <div class = "list-akt">
+            <button type="button" id="akt" ><i class="wi wi-thermometer" style="font-size: 1em"></i></button>
+        </div>
+
         <div id="synop_map">  </div>
+        <hr>
+        <div class = "flex-title">
+            <p> Távolságmérés: </p> </div>
 
         <p> A térképren az Országos Meteorológiai Szolgálat állomásai és azok kódjai láthatóak. 
             A térképre kattintva jelölőt lehet lehelyezni, így a legközebbi állomást és az attól vett távolságot jeleníti meg.
